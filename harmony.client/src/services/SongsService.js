@@ -11,6 +11,13 @@ class SongsService {
     AppState.songs = res.data
     // logger.log(AppState.songs)
   }
+  async createSong(body) {
+    const res = await api.post('api/songs', body)
+    logger.log(res.data)
+    // AppState.songs = res.data
+    AppState.songs.push(res.data)
+    return res.data
+  }
 }
 
 export const songsService = new SongsService()

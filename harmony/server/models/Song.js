@@ -7,5 +7,5 @@ export const SongSchema = new Schema({
   coverImg: { type: String, required: true },
   genre: { type: String },
   songUrl: { type: String, required: true },
-  streams: { type: Number, required: true },
+  streams: { type: Number },
 })

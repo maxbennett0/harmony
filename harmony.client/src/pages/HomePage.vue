@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <SongForm />
     <div class="row justify-content-center">
       <div v-for="s in songs" class="col-3 d-flex">
         <div class="col-8 d-flex">
@@ -19,6 +20,7 @@ import Pop from "../utils/Pop.js"
 import { songsService } from "../services/SongsService.js"
 import { AppState } from "../AppState.js"
 import SongCard from "../components/SongCard.vue"
+import SongForm from "../components/SongForm.vue"
 
 export default {
   setup() {
@@ -54,7 +56,7 @@ export default {
       // }
     };
   },
-  components: { SongCard }
+  components: { SongCard, SongForm }
 }
 </script>
 

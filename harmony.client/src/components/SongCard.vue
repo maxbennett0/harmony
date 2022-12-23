@@ -1,7 +1,8 @@
 <template>
 
   <div class="pt-2 ">
-    <img class="img-fluid img-size" :src="song.imgUrl" alt="">
+    <h4 class="text-center">{{ song.name }}</h4>
+    <img class="img-fluid img-size" :src="song.coverImg" alt="">
     <audio class="justify-content-center col-12" controls :src="song.songUrl"></audio>
   </div>
 </template>
