@@ -13,7 +13,7 @@ class DbContext {
     {
       name: 'maxbeats',
       songUrl: 'https://firebasestorage.googleapis.com/v0/b/harmony-ad9d7.appspot.com/o/Media%2Fsoudiereafter.mp3?alt=media&token=c8484690-59ea-4268-9b19-5f6c8c4e8436',
-      imgUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fscary%2F&psig=AOvVaw2Nk4ep4hSOgyXj39AsQsNd&ust=1671846455453000&source=images&cd=vfe&ved=0CA4QjRxqFwoTCIjPhsHPjvwCFQAAAAAdAAAAABAE'
+      imgUrl: 'https://play-lh.googleusercontent.com/QovZ-E3Uxm4EvjacN-Cv1LnjEv-x5SqFFB5BbhGIwXI_KorjFhEHahRZcXFC6P40Xg'
     },
     {
       name: 'maxbeats2',
@@ -28,7 +28,7 @@ class DbContext {
     {
       name: 'maxbeats4',
       songUrl: 'https://firebasestorage.googleapis.com/v0/b/harmony-ad9d7.appspot.com/o/Media%2Fsoudiereafter.mp3?alt=media&token=c8484690-59ea-4268-9b19-5f6c8c4e8436',
-      imgUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fscary%2F&psig=AOvVaw2Nk4ep4hSOgyXj39AsQsNd&ust=1671846455453000&source=images&cd=vfe&ved=0CA4QjRxqFwoTCIjPhsHPjvwCFQAAAAAdAAAAABAE'
+      imgUrl: 'https://play-lh.googleusercontent.com/QovZ-E3Uxm4EvjacN-Cv1LnjEv-x5SqFFB5BbhGIwXI_KorjFhEHahRZcXFC6P40Xg'
     },
   ]
 }

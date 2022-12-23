@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+  <nav class="navbar navbar-expand-lg navbar-color navbar-color px-3 ">
+    <router-link class="navbar-brand " :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <img alt="logo" src="../assets/img/clipart4813176 1.png" height="45" />
       </div>
@@ -52,5 +52,9 @@ a:hover {
   nav {
     height: 64px;
   }
+}
+
+.navbar-color {
+  background-color: #4C474C;
 }
 </style>
