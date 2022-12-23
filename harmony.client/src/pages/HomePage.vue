@@ -1,9 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-      </div>
-    </div>
+    <audio controls loop
+      src="https://firebasestorage.googleapis.com/v0/b/harmony-ad9d7.appspot.com/o/Media%2Fsoudiereafter.mp3?alt=media&token=c8484690-59ea-4268-9b19-5f6c8c4e8436%22%3E"></audio>
   </div>
 </template>
 
@@ -12,12 +10,13 @@
 import { ref } from "vue"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
-import { firebaseService } from "../services/FirebaseService.js"
+// import { firebaseService } from "../services/FirebaseService.js"
 
 export default {
   setup() {
     // NOTE also for firebase stuff
     // const image = ref([])
+
     return {
       // FIXME FIREBASE PROBLEMS
       // image,
