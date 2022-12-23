@@ -1,23 +1,60 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div v-for="s in songs" class="col-3 d-flex">
+        <div class="col-8 d-flex">
+          <SongCard :song="s" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
+import { ref, onMounted, computed } from "vue"
+import { logger } from "../utils/Logger.js"
+import Pop from "../utils/Pop.js"
+// import { firebaseService } from "../services/FirebaseService.js"
+import { songsService } from "../services/SongsService.js"
+import { AppState } from "../AppState.js"
+import SongCard from "../components/SongCard.vue"
+
 export default {
   setup() {
-    return {}
-  }
+    // NOTE also for firebase stuff
+    // const image = ref([])
+    async function getSongs() {
+      try {
+        await songsService.getSongs();
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.error(error.message);
+      }
+    }
+    onMounted(() => {
+      getSongs();
+    });
+    return {
+      songs: computed(() => AppState.songs)
+      // FIXME FIREBASE PROBLEMS
+      // image,
+      // setImage(e) {
+      //   image.value = e.target.files
+      //   logger.log('New image: ', image.value)
+      // },
+      // async upload() {
+      //   try {
+      //     const url = await firebaseService.upload(image.value[0])
+      //   } catch (error) {
+      //     logger.error(error)
+      //     Pop.toast(error.message, 'error')
+      //   }
+      // }
+    };
+  },
+  components: { SongCard }
 }
 </script>
 
