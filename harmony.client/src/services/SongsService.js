@@ -18,6 +18,13 @@ class SongsService {
     AppState.songs.push(res.data)
     return res.data
   }
+
+  async deleteSong(songId) {
+    const res = await api.delete('api/songs/' + songId)
+    logger.log(res.data, "soong gone")
+  }
+
+
 }
 
 export const songsService = new SongsService()

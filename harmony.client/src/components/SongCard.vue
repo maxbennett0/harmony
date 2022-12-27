@@ -4,6 +4,8 @@
     <h4 class="text-center">{{ song.name }}</h4>
     <img class="img-fluid img-size" :src="song.coverImg" alt="">
     <audio class="justify-content-center col-12" controls :src="song.songUrl"></audio>
+    <button title="delete song?" class="btn btn-outline bg-danger mdi mdi-delete" v-if="song?.artistId == account.id"
+      @click="deleteSong"></button>
   </div>
 </template>
 
@@ -11,11 +13,29 @@
 <script>
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
+import Pop from "../utils/Pop.js";
+import { songsService } from "../services/SongsService.js";
 export default {
   props: { song: { type: Object, required: true } },
   setup() {
     return {
-      app
+      account: computed(() => AppState.account),
+
+
+
+
+
+
+
+      async deleteSong() {
+        try {
+          if (await Pop.confirm('delete song')) {
+            await songsService.deleteSong(route.params.songId)
+          }
+        } catch (error) {
+          Pop.error(error)
+        }
+      }
     }
   }
 };
