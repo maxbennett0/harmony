@@ -1,11 +1,14 @@
 <template>
 
-  <div class="pt-2 ">
-    <h4 class="text-center">{{ song.name }}</h4>
+  <div class="pt-2">
+    <!-- NOTE changes font color blue??? -->
+    <router-link :to="{ name: 'ActivePage', params: { songId: song._id } }">
+      <h4 class="text-center">{{ song.name }}</h4>
+    </router-link>
     <img class="img-fluid img-size" :src="song.coverImg" alt="">
     <audio class="justify-content-center col-12" controls :src="song.songUrl"></audio>
-    <button title="delete song?" class="btn btn-outline bg-danger mdi mdi-delete" v-if="song?.artistId == account.id"
-      @click="deleteSong"></button>
+    <!-- <button title="delete song?" class="btn btn-outline bg-danger mdi mdi-delete" v-if="song?.artistId == account.id"
+      @click="deleteSong"></button> -->
   </div>
 </template>
 
@@ -21,19 +24,12 @@ export default {
     return {
       account: computed(() => AppState.account),
 
-
-
-
-
-
-
-      async deleteSong() {
+      async findSongById() {
         try {
-          if (await Pop.confirm('delete song')) {
-            await songsService.deleteSong(route.params.songId)
-          }
+          await songsService.findSongById(song._id)
         } catch (error) {
-          Pop.error(error)
+          logger.error(error)
+          Pop.error(error.message)
         }
       }
     }

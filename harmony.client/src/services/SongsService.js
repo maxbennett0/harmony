@@ -21,7 +21,14 @@ class SongsService {
 
   async deleteSong(songId) {
     const res = await api.delete('api/songs/' + songId)
-    logger.log(res.data, "soong gone")
+    logger.log(res.data, "song gone")
+  }
+
+  async findSongById(songId) {
+    const res = await api.get('api/songs/' + songId)
+    logger.log(res.data)
+    AppState.activeSong = res.data
+    // logger.log(AppState.activeSong)
   }
 
 

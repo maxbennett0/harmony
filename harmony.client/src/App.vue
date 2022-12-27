@@ -5,20 +5,24 @@
   <main class="color-background">
     <router-view />
   </main>
-  <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
+  <footer class="color-background">
   </footer>
 </template>
 
 <script>
 import { computed } from 'vue'
+import { useRoute } from "vue-router"
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 
 export default {
   setup() {
+    const route = useRoute()
     return {
-      appState: computed(() => AppState)
+      route,
+      appState: computed(() => AppState),
+      songs: computed(() => AppState.songs),
+      chosenSong: computed(() => AppState.songs.find(s => s._id == route.params.songId))
     }
   },
   components: { Navbar }
@@ -40,5 +44,9 @@ footer {
 
 .color-background {
   background-color: #B1BBD3;
+}
+
+.audio-size {
+  width: 215vh;
 }
 </style>
