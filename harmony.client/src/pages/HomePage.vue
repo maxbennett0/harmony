@@ -39,7 +39,7 @@ export default {
       getSongs();
     });
     return {
-      songs: computed(() => AppState.songs)
+      songs: computed(() => AppState.songs),
       // FIXME FIREBASE PROBLEMS
       // image,
       // setImage(e) {

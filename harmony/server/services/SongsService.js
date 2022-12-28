@@ -10,10 +10,8 @@ class SongsService {
     return song
   }
   async removeSong(id, userId) {
-
     const song = await this.findSongById(id)
     if (song.artistId.toString() != userId) throw new Forbidden('not your song dawg')
-
     await song.remove()
     return `deleted ${song.name}`
     // const songs = await dbContext.Songs.findById(id)

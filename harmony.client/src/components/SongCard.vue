@@ -1,14 +1,18 @@
 <template>
-
   <div class="pt-2">
     <!-- NOTE changes font color blue??? -->
     <router-link :to="{ name: 'ActivePage', params: { songId: song._id } }">
       <h4 class="text-center">{{ song.name }}</h4>
     </router-link>
     <img class="img-fluid img-size" :src="song.coverImg" alt="">
-    <audio class="justify-content-center col-12" controls :src="song.songUrl"></audio>
-    <!-- <button title="delete song?" class="btn btn-outline bg-danger mdi mdi-delete" v-if="song?.artistId == account.id"
-      @click="deleteSong"></button> -->
+    <div class="d-flex justify-content-around">
+      <i id="pause" v-if="activeSong" class="mdi mdi-pause fs-2 d-flex selectable" @click="pauseSong"></i>
+      <i id="play" v-if="activeSong" class="mdi mdi-play fs-2 d-flex selectable" @click="playSong"></i>
+      <i id="playButton" v-else class="mdi mdi-play fs-2 d-flex selectable" @click="findSongById(song._id)"></i>
+    </div>
+    <!-- <audio controls :src="song.songUrl"></audio> -->
+    <!-- <audio class=" justify-content-center col-12" controls :src="song.songUrl"></audio> -->
+
   </div>
 </template>
 
@@ -18,20 +22,39 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import Pop from "../utils/Pop.js";
 import { songsService } from "../services/SongsService.js";
+import { logger } from "../utils/Logger.js";
 export default {
   props: { song: { type: Object, required: true } },
+
   setup() {
     return {
-      account: computed(() => AppState.account),
 
-      async findSongById() {
+      account: computed(() => AppState.account),
+      activeSong: computed(() => AppState.activeSong),
+
+      async findSongById(song) {
         try {
-          await songsService.findSongById(song._id)
+          await songsService.findSongById(song)
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
         }
+      },
+      pauseSong() {
+        try {
+          const player = document.getElementById('player')
+          player.pause()
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+
+      playSong() {
+        const player = document.getElementById('player')
+        player.play()
       }
+
     }
   }
 };

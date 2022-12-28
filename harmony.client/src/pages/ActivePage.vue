@@ -10,9 +10,9 @@
             <h1>Likes go here</h1>
             <h1>Stream Count go here</h1>
             <div class="col-12">
-              <button class="btn btn-danger mx-3 p-3">Like</button>
-              <button class="btn btn-success mx-3 p-3"><i class="mdi mdi-motion-play-outline"></i> Play {{ song.name
-              }}</button>
+              <i class="mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
+              <button v-if="song?.artistId == account.id" title="delete song?"
+                class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
             </div>
           </div>
         </div>
@@ -28,11 +28,12 @@ import { computed, reactive, onMounted } from 'vue';
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { songsService } from "../services/SongsService.js";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 export default {
   setup() {
 
     const route = useRoute();
+    const router = useRouter();
 
     async function findSongById() {
       try {
@@ -49,7 +50,19 @@ export default {
 
     return {
       songs: computed(() => AppState.songs),
-      song: computed(() => AppState.activeSong)
+      song: computed(() => AppState.activeSong),
+      account: computed(() => AppState.account),
+
+      async deleteSong() {
+        try {
+          await songsService.deleteSong(route.params.songId)
+          router.push({ name: 'Home' })
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      }
+
     }
   }
 };
