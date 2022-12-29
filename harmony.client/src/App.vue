@@ -5,12 +5,11 @@
   <main class="color-background">
     <router-view />
   </main>
-  <footer class="color-background container-fluid row mb-3">
-    <!-- <div class="col-2 d-flex">
-      <img class="img-fluid" v-if="activeSong" :src="activeSong.coverImg" alt="">
-    </div> -->
-    <audio id="player" v-if="activeSong" class="audio-size" title="Audio Player" controls autoplay
-      :src="activeSong.songUrl"></audio>
+  <footer class="color-background container-fluid row ">
+    <div class="col-12 d-flex justify-content-center mb-4 d-flex ">
+      <img class="img-fluid img-vfx pb-4 d-flex rounded" v-if="activeSong" :src="activeSong.coverImg" alt="">
+      <audio id="player" v-if="activeSong" class="audio-size" controls autoplay :src="activeSong.songUrl"></audio>
+    </div>
   </footer>
 </template>
 
@@ -40,6 +39,10 @@ export default {
   --main-height: calc(100vh - 32px - 64px);
 }
 
+.img-vfx {
+  height: 100px;
+  width: 100px;
+}
 
 footer {
   display: grid;
