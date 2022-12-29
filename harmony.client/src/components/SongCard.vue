@@ -6,9 +6,10 @@
     </router-link>
     <img class="img-fluid img-size" :src="song.coverImg" alt="">
     <div class="d-flex justify-content-around">
-      <i id="pause" v-if="activeSong" class="mdi mdi-pause fs-2 d-flex selectable" @click="pauseSong"></i>
-      <i id="play" v-if="activeSong" class="mdi mdi-play fs-2 d-flex selectable" @click="playSong"></i>
-      <i id="playButton" v-else class="mdi mdi-play fs-2 d-flex selectable" @click="findSongById(song._id)"></i>
+      <i id="pause" title="Pause" v-if="activeSong" class="mdi mdi-pause fs-2 d-flex selectable" @click="pauseSong"></i>
+      <i id="play" title="Play" v-if="activeSong" class="mdi mdi-play fs-2 d-flex selectable" @click="playSong"></i>
+      <i id="playButton" title="Play Song" v-else class="mdi mdi-play fs-2 d-flex selectable"
+        @click="findSongById(song._id)"></i>
     </div>
     <!-- <audio controls :src="song.songUrl"></audio> -->
     <!-- <audio class=" justify-content-center col-12" controls :src="song.songUrl"></audio> -->
