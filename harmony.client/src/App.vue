@@ -9,7 +9,8 @@
     <!-- <div class="col-2 d-flex">
       <img class="img-fluid" v-if="activeSong" :src="activeSong.coverImg" alt="">
     </div> -->
-    <audio id="player" v-if="activeSong" class="audio-size" controls autoplay :src="activeSong.songUrl"></audio>
+    <audio id="player" v-if="activeSong" class="audio-size" title="Audio Player" controls autoplay
+      :src="activeSong.songUrl"></audio>
   </footer>
 </template>
 
@@ -52,5 +53,6 @@ footer {
 
 .audio-size {
   width: 215vh;
+  padding: 5px;
 }
 </style>
