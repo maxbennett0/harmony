@@ -17,3 +17,4 @@ SongSchema.virtual('artist', {
   justOne: true,
   ref: 'Account'
 })
+

@@ -19,6 +19,13 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <CommentForm />
+  </div>
+
+  <div v-for="c in comments">
+    {{ c.body }}
+  </div>
 </template>
 
 
@@ -29,42 +36,54 @@ import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { songsService } from "../services/SongsService.js";
 import { useRoute, useRouter } from "vue-router";
+import CommentForm from "../components/CommentForm.vue";
+import { commentsService } from "../services/CommentsService.js";
 export default {
   setup() {
-
     const route = useRoute();
     const router = useRouter();
-
     async function findSongById() {
       try {
-        await songsService.findSongById(route.params.songId)
+        await songsService.findSongById(route.params.songId);
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.error(error.message);
+      }
+    }
+
+
+    async function getCommentsBySongId() {
+
+      try {
+        await commentsService.getCommentsBySongId(route.params.songId)
       } catch (error) {
-        logger.error(error)
-        Pop.error(error.message)
+        Pop.error(error)
       }
     }
 
     onMounted(() => {
       findSongById();
-    })
-
+      getCommentsBySongId()
+    });
     return {
       songs: computed(() => AppState.songs),
       song: computed(() => AppState.activeSong),
       account: computed(() => AppState.account),
-
+      comments: computed(() => AppState.comments),
       async deleteSong() {
         try {
-          await songsService.deleteSong(route.params.songId)
-          router.push({ name: 'Home' })
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error.message)
+          await songsService.deleteSong(route.params.songId);
+          router.push({ name: "Home" });
+        }
+        catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
         }
       }
-
-    }
-  }
+    };
+  },
+  components: { CommentForm }
 };
 </script>
 
