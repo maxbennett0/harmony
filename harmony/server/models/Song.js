@@ -9,4 +9,11 @@ export const SongSchema = new Schema({
   genre: { type: String },
   songUrl: { type: String, required: true },
   streams: { type: Number },
+}, { timestamps: true, toJSON: { virtuals: true } })
+
+SongSchema.virtual('artist', {
+  localField: 'artistId',
+  foreignField: '_id',
+  justOne: true,
+  ref: 'Account'
 })

@@ -2,14 +2,19 @@
   <div class="pt-2">
     <!-- NOTE changes font color blue??? -->
     <router-link :to="{ name: 'ActivePage', params: { songId: song._id } }">
-      <h4 class="text-center">{{ song.name }}</h4>
+      <h4 class="text-center">{{ song?.name }}</h4>
+      <img class="img-fluid img-size" :src="song.coverImg" alt="">
     </router-link>
-    <img class="img-fluid img-size" :src="song.coverImg" alt="">
     <div class="d-flex justify-content-around">
       <i id="pause" title="Pause" v-if="activeSong" class="mdi mdi-pause fs-2 d-flex selectable" @click="pauseSong"></i>
       <i id="play" title="Play" v-if="activeSong" class="mdi mdi-play fs-2 d-flex selectable" @click="playSong"></i>
       <i id="playButton" title="Play Song" v-else class="mdi mdi-play fs-2 d-flex selectable"
         @click="findSongById(song._id)"></i>
+    </div>
+    <div>
+      <router-link :to="{ name: 'ProfilePage', params: { profileId: song.artistId } }">
+        <h5 class="text-center">{{ song.artist?.name }}</h5>
+      </router-link>
     </div>
     <!-- <audio controls :src="song.songUrl"></audio> -->
     <!-- <audio class=" justify-content-center col-12" controls :src="song.songUrl"></audio> -->
@@ -65,6 +70,12 @@ export default {
 <style lang="scss" scoped>
 .img-size {
   height: 30vh;
+}
+
+.img-size:hover {
+  transform: scale(1.05);
+  box-shadow: solid black 10em;
+  transition: ease-in 100ms;
 }
 
 audio:hover,

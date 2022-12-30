@@ -18,7 +18,7 @@
         <input v-model="editable.coverImg" type="url" class="form-control" id="songImg" aria-describedby="emailHelp"
           placeholder="Enter img">
       </div>
-      <button type="submit">submit</button>
+      <button class="btn btn-primary" type="submit">submit</button>
     </form>
   </div>
 </template>

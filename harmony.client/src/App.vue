@@ -5,8 +5,8 @@
   <main class="color-background">
     <router-view />
   </main>
-  <footer class="color-background container-fluid row ">
-    <div class="col-12 d-flex justify-content-center mb-4 d-flex ">
+  <footer class="color-background container-fluid row sticky-bottom">
+    <div class="col-12 d-flex justify-content-center mb-4 d-flex">
       <img class="img-fluid img-vfx pb-4 d-flex rounded" v-if="activeSong" :src="activeSong.coverImg" alt="">
       <audio id="player" v-if="activeSong" class="audio-size" controls autoplay :src="activeSong.songUrl"></audio>
     </div>

@@ -6,11 +6,17 @@ import { logger } from "../utils/Logger.js"
 
 class SongsService {
   async findSongById(id) {
-    const song = await dbContext.Songs.findById(id)
+    const song = await dbContext.Songs.findById(id).populate('artist')
+    return song
+  }
+
+  async findSongsByAccountId() {
+    const song = await dbContext.Songs.find().populate('song artist')
     return song
   }
   async removeSong(id, userId) {
     const song = await this.findSongById(id)
+    // @ts-ignore
     if (song.artistId.toString() != userId) throw new Forbidden('not your song dawg')
     await song.remove()
     return `deleted ${song.name}`
@@ -23,12 +29,12 @@ class SongsService {
   }
 
   async getSongs() {
-    const songs = await dbContext.Songs.find()
+    const songs = await dbContext.Songs.find().populate('artist')
     return songs
   }
 
   async createSong(body) {
-    const song = await dbContext.Songs.create(body)
+    const song = await (await dbContext.Songs.create(body)).populate('artist')
     logger.log(song, "created song")
     return song
   }

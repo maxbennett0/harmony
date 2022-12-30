@@ -8,5 +8,9 @@ export const AppState = reactive({
 
   songs: [],
 
-  activeSong: null
+  activeSong: null,
+
+  activeProfile: null,
+
+  accountSongs: []
 })
