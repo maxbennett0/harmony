@@ -33,11 +33,10 @@ class SongsService {
   }
 
   async getSongsByAccountId(accountId) {
-    const res = await api.get('api/profile/' + accountId)
+    const res = await api.get('api/profiles/' + accountId)
     logger.log(res.data)
     AppState.accountSongs = res.data
   }
-
 }
 
 export const songsService = new SongsService()

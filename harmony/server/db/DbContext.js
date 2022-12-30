@@ -9,8 +9,7 @@ class DbContext {
   Account = mongoose.model('Account', AccountSchema);
 
   Songs = mongoose.model('Song', SongSchema);
-  Comments = mongoose.model('Comment', CommentSchema)
-
+  Comments = mongoose.model('Comment', CommentSchema);
   // songs = [
   // ]
 }

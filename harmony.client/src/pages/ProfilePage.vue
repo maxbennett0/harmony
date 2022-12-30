@@ -36,33 +36,34 @@ export default {
     const route = useRoute()
 
 
+    // async function getProfile() {
+    //   try {
+    //     logger.log('getting profile')
+    //     await accountService.getAccount()
+    //   } catch (error) {
+    //     logger.error(error)
+    //     Pop.error(error.message)
+    //   }
+    // }
+
     async function getProfile() {
       try {
-        await accountService.getAccount()
+        await accountService.getProfile(route.params.profileId)
       } catch (error) {
         logger.error(error)
         Pop.error(error.message)
       }
     }
-
-    async function getSongsByAccountId() {
-      try {
-        await songsService.getSongsByAccountId(route.params.profileId)
-      } catch (error) {
-        logger.error(error)
-        Pop.error(error.message)
-      }
-    }
-
 
     onMounted(() => {
       getProfile()
-      getSongsByAccountId()
     })
     return {
       route,
       profile: computed(() => AppState.activeProfile),
-      song: computed(() => AppState.songs)
+      song: computed(() => AppState.songs),
+
+
     }
   }
 };

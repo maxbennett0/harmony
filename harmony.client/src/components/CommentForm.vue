@@ -16,7 +16,7 @@
       <textarea placeholder="comment" v-model="editable.body" class="form-control" id="exampleFormControlTextarea1"
         rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-warning">comment</button>
+    <button type="submit" class="btn btn-warning">Comment</button>
   </form>
 
   <!-- </div> -->

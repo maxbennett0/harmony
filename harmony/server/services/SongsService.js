@@ -5,23 +5,28 @@ import { logger } from "../utils/Logger.js"
 
 
 class SongsService {
+  // NOTE gets the uploaded songs on profile
   async getMySongs(id) {
     const mySongs = await dbContext.Songs.find({ id }).populate('song')
     return mySongs
   }
+  // NOTE gets the uploaded songs
   async getSongsByProfileId(songId) {
     const songs = await dbContext.Songs.findById(songId)
     return songs
   }
+  // NOTE gets one song
   async findSongById(id) {
     const song = await dbContext.Songs.findById(id).populate('artist')
     return song
   }
+  // NOTE also gets the uploaded songs?
 
   async findSongsByAccountId() {
     const song = await dbContext.Songs.find().populate('song artist')
     return song
   }
+  // NOTE deletes a song
   async removeSong(id, userId) {
     const song = await this.findSongById(id)
     // @ts-ignore
@@ -36,10 +41,12 @@ class SongsService {
 
   }
 
+  // NOTE gets all the songs
   async getSongs() {
     const songs = await dbContext.Songs.find().populate('artist')
     return songs
   }
+  // NOTE makes a new song
 
   async createSong(body) {
     const song = await (await dbContext.Songs.create(body)).populate('artist')
