@@ -9,6 +9,9 @@
         <h2>
           {{ profile?.artist }}
         </h2>
+        <div v-for="s in song">
+          {{ s.mySongs }}
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +61,8 @@ export default {
     })
     return {
       route,
-      profile: computed(() => AppState.activeProfile)
+      profile: computed(() => AppState.activeProfile),
+      song: computed(() => AppState.songs)
     }
   }
 };

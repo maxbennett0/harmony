@@ -52,4 +52,12 @@ export class SongsController extends BaseController {
       next(error)
     }
   }
+  async getSongsByProfileId(req, res, next) {
+    try {
+      const songs = await songsService.getSongsByProfileId(req.params._id)
+      res.send(songs)
+    } catch (error) {
+      next(error)
+    }
+  }
 }

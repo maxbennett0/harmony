@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
+import { songsService } from "../services/SongsService.js"
 import BaseController from '../utils/BaseController'
 // import { firebaseService } from "../services/FirebaseService.js"
 
@@ -9,9 +10,18 @@ export class AccountController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
+      .get('/songs', this.getMySongs)
     // .get('/firebase', this.getFirebaseToken)
     // TODO figure out what this is in the readme
     // .put('', this.editAccount)
+  }
+  async getMySongs(req, res, next) {
+    try {
+      const songs = await songsService.getMySongs(req.userInfo.id)
+      res.send(songs)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async getUserAccount(req, res, next) {

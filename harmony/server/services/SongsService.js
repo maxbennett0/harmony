@@ -5,6 +5,14 @@ import { logger } from "../utils/Logger.js"
 
 
 class SongsService {
+  async getMySongs(id) {
+    const mySongs = await dbContext.Songs.find({ id }).populate('song')
+    return mySongs
+  }
+  async getSongsByProfileId(songId) {
+    const songs = await dbContext.Songs.findById(songId)
+    return songs
+  }
   async findSongById(id) {
     const song = await dbContext.Songs.findById(id).populate('artist')
     return song
