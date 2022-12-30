@@ -12,5 +12,6 @@ export const AppState = reactive({
 
   activeProfile: null,
 
-  profileSongs: []
+  accountSongs: [],
+  comments: []
 })
