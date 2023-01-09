@@ -19,7 +19,7 @@
           </div>
           <div class="song-description">
             <p class="title">
-              <router-link :to="{ name: 'ActivePage', params: { songId: activeSong._id } }">
+              <router-link :to="{ name: 'ActivePage', params: { songId: activeSong.id } }">
                 {{ activeSong.name }}
               </router-link>
             </p>
