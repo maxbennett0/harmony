@@ -20,6 +20,7 @@
   <div class="col-12 d-flex align-items-center justify-content-around">
     <div class="row cover-img"></div>
     <h2>{{ profile?.bio }}</h2>
+    <h4>{{ profile.artist.songUrl }}</h4>
   </div>
   <div v-for="s in songs">
     <h1 v-if="s._id == s.artist.id">{{ s.name }}</h1>

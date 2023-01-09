@@ -29,6 +29,7 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref } from 'vue';
 import Pop from "../utils/Pop.js";
 import { songsService } from "../services/SongsService.js";
+import { Modal } from "bootstrap";
 export default {
   setup() {
     const editable = ref({})
@@ -38,7 +39,7 @@ export default {
         try {
           const song = await songsService.createSong(editable.value)
           editable.value = {}
-
+          Modal.getOrCreateInstance('#exampleModal').hide()
         } catch (error) {
           // Pop.error(error)
         }
