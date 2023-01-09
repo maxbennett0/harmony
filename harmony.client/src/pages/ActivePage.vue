@@ -38,6 +38,7 @@ import { songsService } from "../services/SongsService.js";
 import { useRoute, useRouter } from "vue-router";
 import CommentForm from "../components/CommentForm.vue";
 import { commentsService } from "../services/CommentsService.js";
+import { likesService } from "../services/LikesService.js";
 export default {
   setup() {
     const route = useRoute();
@@ -77,6 +78,23 @@ export default {
           router.push({ name: "Home" });
         }
         catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
+        }
+      },
+
+      async likeSong() {
+        try {
+          await likesService.likeSong({ songId: route.params.songId })
+        } catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
+        }
+      },
+      async removeLike(songId) {
+        try {
+          await likesService.removeLike(likeId)
+        } catch (error) {
           logger.error(error);
           Pop.error(error.message);
         }
