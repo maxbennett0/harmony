@@ -1,11 +1,12 @@
 <template>
   <div class="row cover-img card" :style="`background-image: url()`">
     <div class="col-8 d-flex align-items-center justify-content-center">
-      <img :src="profile?.artist.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-3">
+      <img :src="profile?.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-3">
       <div class="bg-transparent rounded  p-5">
         <h1 class="">
           {{ profile?.name }}
         </h1>
+        <!-- <h2>{{ profile }}</h2> -->
         <h2>uploaded songs:</h2>
         <h2>
           {{}}
