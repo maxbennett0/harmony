@@ -2,8 +2,8 @@
   <div class="container-fluid">
     <SongForm />
     <div class="row justify-content-center">
-      <div v-for="s in songs" class="col-3 d-flex">
-        <div class="col-8 d-flex">
+      <div v-for="s in songs" class="d-flex">
+        <div>
           <SongCard :song="s" />
         </div>
       </div>

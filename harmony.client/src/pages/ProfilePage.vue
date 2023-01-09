@@ -1,14 +1,14 @@
 <template>
-  <div class="row cover-img card" :style="`background-image: url(${song.artist?.coverImg})`">
+  <div class="row cover-img card" :style="`background-image: url()`">
     <div class="col-8 d-flex align-items-center justify-content-center">
-      <img :src="song.artist?.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-3">
+      <img :src="profile?.artist.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-3">
       <div class="bg-transparent rounded  p-5">
         <h1 class="">
-          {{ song.artist?.name }}
+          {{ profile?.name }}
         </h1>
         <h2>uploaded songs:</h2>
         <h2>
-          {{ profile?.artist }}
+          {{}}
         </h2>
         <div v-for="s in song">
           {{ s.mySongs }}
@@ -64,10 +64,8 @@ export default {
     return {
       route,
       profile: computed(() => AppState.activeProfile),
-      songs: computed(() => AppState.songs),
-      song: computed(() => AppState.activeSong),
-      mySongs: computed(() => AppState.mySongs),
-      account: computed(() => AppState.account)
+      song: computed(() => AppState.songs),
+
 
     }
   }
