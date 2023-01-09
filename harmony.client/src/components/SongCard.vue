@@ -1,17 +1,9 @@
 <template>
   <div class="pt-2">
-    <!-- NOTE changes font color blue??? -->
-    <img class="img-fluid img-size" :src="song.coverImg" alt="" @click="findSongById(song._id)">
-    <h6 class="text-center mt-3">{{ song.name }}</h6>
-    <!-- <div class="d-flex justify-content-around">
-      <i id="pause" title="Pause" v-if="activeSong" class="mdi mdi-pause fs-2 d-flex selectable" @click="pauseSong"></i>
-      <i id="play" title="Play" v-if="activeSong" class="mdi mdi-play fs-2 d-flex selectable" @click="playSong"></i>
-    </div> -->
     <div>
+      <img class="img-fluid img-size" :src="song.coverImg" alt="" @click="findSongById(song._id)">
     </div>
-    <!-- <audio controls :src="song.songUrl"></audio> -->
-    <!-- <audio class=" justify-content-center col-12" controls :src="song.songUrl"></audio> -->
-
+    <h6 class="text-center mt-3">{{ song.name }}</h6>
   </div>
 </template>
 
