@@ -8,12 +8,6 @@
         </h1>
         <!-- <h2>{{ profile }}</h2> -->
         <h2>uploaded songs:</h2>
-        <h2>
-          {{}}
-        </h2>
-        <div v-for="s in song">
-          {{ s.mySongs }}
-        </div>
       </div>
     </div>
   </div>
@@ -21,8 +15,10 @@
     <div class="row cover-img"></div>
     <h2>{{ profile?.bio }}</h2>
   </div>
-  <div v-for="s in songs">
-    <h1 v-if="s._id == s.artist.id">{{ s.name }}</h1>
+  <div class="d-flex justify-content-center" v-for="s in songs">
+    <div v-if="profile.artist.id == s.artistId">
+      <SongCard :song="s" />
+    </div>
   </div>
 </template>
 
@@ -35,11 +31,10 @@ import { logger } from "../utils/Logger.js";
 import { accountService } from "../services/AccountService.js";
 import { songsService } from "../services/SongsService.js";
 import { useRoute } from "vue-router";
+import SongCard from "../components/SongCard.vue";
 export default {
   setup() {
-    const route = useRoute()
-
-
+    const route = useRoute();
     // async function getProfile() {
     //   try {
     //     logger.log('getting profile')
@@ -49,27 +44,25 @@ export default {
     //     Pop.error(error.message)
     //   }
     // }
-
     async function getProfile() {
       try {
-        await accountService.getProfile(route.params.profileId)
-      } catch (error) {
-        logger.error(error)
-        Pop.error(error.message)
+        await accountService.getProfile(route.params.profileId);
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.error(error.message);
       }
     }
-
     onMounted(() => {
-      getProfile()
-    })
+      getProfile();
+    });
     return {
       route,
       profile: computed(() => AppState.activeSong),
-      song: computed(() => AppState.songs),
-
-
-    }
-  }
+      songs: computed(() => AppState.songs),
+    };
+  },
+  components: { SongCard }
 };
 </script>
 
