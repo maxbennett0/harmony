@@ -10,7 +10,10 @@
             <h1 class="elevation-5">Likes go here</h1>
             <h1 class="elevation-5">Stream Count go here</h1>
             <div class="col-12 ">
-              <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
+              <i v-if="song.isLiked == false"
+                class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
+              <i v-else class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
+                @click="removeLike(song.id)"></i>
               <button v-if="song?.artistId == account.id" title="delete song?"
                 class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
             </div>
@@ -91,7 +94,7 @@ export default {
           Pop.error(error.message);
         }
       },
-      async removeLike(songId) {
+      async removeLike(likeId) {
         try {
           await likesService.removeLike(likeId)
         } catch (error) {

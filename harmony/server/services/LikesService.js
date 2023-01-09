@@ -19,17 +19,11 @@ class LikesService {
 
     async removeLike(likeId, userId) {
         const like = await dbContext.Likes.findById(likeId).populate('artist song')
-        if (like.accountId.toString() != userId) {
-            throw new Forbidden('not your like')
-        } else if (!like) {
-            throw new BadRequest('no like at this like id')
-        } else {
-            const song = await songsService.findSongById(like.songId)
-            await like.remove()
-            song.isLiked = false
-            await song.save()
-            return 'removed like'
-        }
+        const song = await songsService.findSongById(like.songId)
+        await like.remove()
+        song.isLiked = false
+        await song.save()
+        return 'removed like'
     }
 
 }
