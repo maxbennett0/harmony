@@ -85,8 +85,8 @@ footer {
   width: 100%;
 }
 
-.color-background {
-  background-color: #B1BBD3;
+#grad {
+  background-image: linear-gradient(to bottom right, red, yellow);
 }
 
 .audio-size {
@@ -102,7 +102,9 @@ footer {
 body {
   margin: 0;
   padding: 0;
-  background-color: #222;
+  // background-color: #222;
+  background-image: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
+
   font-size: 14px;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -125,7 +127,7 @@ audio::-webkit-media-controls-panel {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  // position: relative;
   height: 7rem;
   // padding: var(--padding);
   color: var(--primary-color);

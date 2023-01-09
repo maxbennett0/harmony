@@ -9,6 +9,7 @@
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
@@ -17,6 +18,9 @@
           </router-link>
         </li>
       </ul>
+      <button type="button" class=" btn mx-2 button-vfx" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        upload
+      </button>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>
@@ -48,6 +52,20 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 
+
+.button-vfx {
+  background-color: rgb(89, 169, 185);
+}
+
+.button-vfx:hover {
+  background-color: blue;
+}
+
+.button-vfx:active {
+  transform: translateY(2px);
+  transition: ease-out 5ms 5ms 5ms;
+}
+
 @media screen and (min-width: 768px) {
   nav {
     height: 64px;
@@ -55,6 +73,6 @@ a:hover {
 }
 
 .navbar-color {
-  background-color: #4C474C;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), #E4EfE9);
 }
 </style>

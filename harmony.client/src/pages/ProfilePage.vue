@@ -14,6 +14,7 @@
   <div class="col-12 d-flex align-items-center justify-content-around">
     <div class="row cover-img"></div>
     <h2>{{ profile?.bio }}</h2>
+    <h4>{{ profile.artist.songUrl }}</h4>
   </div>
   <div class="d-flex justify-content-center" v-for="s in songs">
     <div v-if="profile.artist.id == s.artistId">

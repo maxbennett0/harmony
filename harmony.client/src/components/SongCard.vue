@@ -1,9 +1,13 @@
 <template>
-  <div class="pt-2">
+  <div class="pt-2  col-12 d-flex selectable" @click="findSongById(song._id)">
     <div>
-      <img class="img-fluid img-size" :src="song.coverImg" alt="" @click="findSongById(song._id)">
+      <img class="img-fluid img-size d-flex  pb-2" :src="song.coverImg" alt="">
     </div>
-    <h6 class="text-center mt-3">{{ song.name }}</h6>
+    <!-- <h6 class="d-flex mt-5 ">{{ song.artist.name }} {{ song.name }}</h6> -->
+    <div class="row px-2">
+      <h6 class="pt-4">{{ song.name }}</h6>
+      <h6>{{ song.artist.name }}</h6>
+    </div>
   </div>
 </template>
 
@@ -54,7 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 .img-size {
-  height: 30vh;
+  height: 10vh;
 }
 
 .img-size:hover {
