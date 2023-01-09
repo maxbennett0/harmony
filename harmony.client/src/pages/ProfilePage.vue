@@ -4,7 +4,7 @@
       <img :src="profile?.artist.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-5">
       <div class="bg-transparent rounded elevation-5 p-5">
         <h1 class="elevation-1">
-          {{ profile?.artist.name }}
+          {{ profile?.name }}
         </h1>
         <h2>
           {{}}
@@ -19,7 +19,9 @@
     <div class="row cover-img"></div>
     <h2>{{ profile?.bio }}</h2>
   </div>
-
+  <div v-for="s in songs">
+    <h1 v-if="s._id == s.artist.id">{{ s.name }}</h1>
+  </div>
 </template>
 
 
@@ -60,7 +62,7 @@ export default {
     })
     return {
       route,
-      profile: computed(() => AppState.activeSong),
+      profile: computed(() => AppState.activeProfile),
       song: computed(() => AppState.songs),
 
 

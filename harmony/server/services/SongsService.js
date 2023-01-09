@@ -6,8 +6,8 @@ import { logger } from "../utils/Logger.js"
 
 class SongsService {
   // NOTE gets the uploaded songs on profile
-  async getMySongs(id) {
-    const mySongs = await dbContext.Songs.find({ id }).populate('song')
+  async getMySongs(artistId) {
+    const mySongs = await dbContext.Songs.find({ artistId }).populate('song')
     return mySongs
   }
   // NOTE gets the uploaded songs
@@ -53,6 +53,10 @@ class SongsService {
     logger.log(song, "created song")
     return song
   }
+  // async getMySongs() {
+
+  // }
 }
+
 
 export const songsService = new SongsService()
