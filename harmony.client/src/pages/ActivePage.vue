@@ -2,15 +2,15 @@
   <div class="container-fluid">
     <div class="row">
       <div v-if="song" class="col-12">
-        <div class="d-flex">
-          <img class="img-fluid album-img mt-2" :src="song.coverImg" alt="">
+        <div class="d-flex pb-2">
+          <img class="img-fluid mt-2" :src="song.coverImg" alt="">
           <div class="row m-2 align-items-center">
-            <h1>{{ song.name }}</h1>
+            <h1 class="elevation-5">{{ song.name }}</h1>
             <!-- TODO add an album name -->
-            <h1>Likes go here</h1>
-            <h1>Stream Count go here</h1>
-            <div class="col-12">
-              <i class="mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
+            <h1 class="elevation-5">Likes go here</h1>
+            <h1 class="elevation-5">Stream Count go here</h1>
+            <div class="col-12 ">
+              <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
               <button v-if="song?.artistId == account.id" title="delete song?"
                 class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
             </div>
@@ -97,5 +97,17 @@ export default {
 
 .album-img {
   border-radius: 10%;
+}
+
+.bg-image {
+  filter: blur(30px);
+}
+
+button {
+  transition: background-color 1s ease-in-out;
+}
+
+button:hover {
+  background-color: red;
 }
 </style>
