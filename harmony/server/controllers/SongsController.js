@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import { UserInfo } from "firebase-admin/lib/auth/user-record.js";
 import { commentsService } from "../services/CommentsService.js";
+import { likesService } from "../services/LikesService.js";
 import { songsService } from "../services/SongsService.js";
 import BaseController from "../utils/BaseController.js";
 
@@ -12,9 +13,18 @@ export class SongsController extends BaseController {
       .get('', this.getSongs)
       .get('/:id', this.findSongById)
       .get('/:id/comments', this.getAllComments)
+      .get('/:id/likes', this.getLikesBySongId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createSong)
       .delete('/:id', this.removeSong)
+  }
+  async getLikesBySongId(req, res, next) {
+    try {
+      const like = await likesService.getLikesBySongId(req.params.id)
+      return res.send(like)
+    } catch (error) {
+      next(error)
+    }
   }
   async getAllComments(req, res, next) {
     try {

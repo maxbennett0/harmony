@@ -17,13 +17,18 @@ class LikesService {
         return like
     }
 
-    async removeLike(likeId, userId) {
+    async removeLike(likeId) {
         const like = await dbContext.Likes.findById(likeId).populate('artist song')
         const song = await songsService.findSongById(like.songId)
         await like.remove()
         song.isLiked = false
         await song.save()
         return 'removed like'
+    }
+
+    async getLikesBySongId(songId) {
+        const like = await dbContext.Likes.find({ songId }).populate('artist')
+        return like
     }
 
 }

@@ -1,19 +1,11 @@
 import { dbContext } from "../db/DbContext.js"
 import { songsService } from "./SongsService.js"
 
-
-
-
-
-
-
-
-
 class CommentsService {
 
 
-  async getAllComments(query) {
-    const comment = await dbContext.Comments.find(query).populate('creator')
+  async getAllComments(songId) {
+    const comment = await dbContext.Comments.find(songId).populate('creator')
     return comment
   }
 

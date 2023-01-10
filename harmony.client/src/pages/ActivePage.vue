@@ -7,15 +7,14 @@
           <div class="row m-2 align-items-center">
             <h1 class="elevation-5">{{ song.name }}</h1>
             <!-- TODO add an album name -->
-            <h1 class="elevation-5">Likes go here</h1>
+            <h1 class="elevation-5">Likes: {{ likes.length }}</h1>
             <h1 class="elevation-5">Stream Count go here</h1>
             <div class="col-12 ">
-              <i v-if="song.isLiked == false"
-                class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
-              <i v-else class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
-                @click="removeLike(song.id)"></i>
+              <i v-if="foundMe" class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
+                @click="removeLike(foundMe.id)"></i>
+              <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
               <button v-if="song?.artistId == account.id" title="delete song?"
-                class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
+                class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong(song.id)"></button>
             </div>
           </div>
         </div>
@@ -42,6 +41,7 @@ import { useRoute, useRouter } from "vue-router";
 import CommentForm from "../components/CommentForm.vue";
 import { commentsService } from "../services/CommentsService.js";
 import { likesService } from "../services/LikesService.js";
+
 export default {
   setup() {
     const route = useRoute();
@@ -62,19 +62,32 @@ export default {
       try {
         await commentsService.getCommentsBySongId(route.params.songId)
       } catch (error) {
-        Pop.error(error)
+        Pop.error(error.message)
+      }
+    }
+
+    async function getLikesBySongId() {
+      try {
+        await likesService.getLikesBySongId(route.params.songId)
+      } catch (error) {
+        Pop.error(error.message)
+        logger.log(error)
       }
     }
 
     onMounted(() => {
       findSongById();
-      getCommentsBySongId()
+      getCommentsBySongId();
+      getLikesBySongId();
     });
     return {
+      route,
       songs: computed(() => AppState.songs),
       song: computed(() => AppState.activeSong),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
+      likes: computed(() => AppState.likes),
+      foundMe: computed(() => AppState.likes.find(l => l.accountId == AppState.account.id)),
       async deleteSong() {
         try {
           await songsService.deleteSong(route.params.songId);

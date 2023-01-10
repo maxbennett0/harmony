@@ -8,7 +8,7 @@ export const SongSchema = new Schema({
   genre: { type: String },
   songUrl: { type: String, required: true },
   streams: { type: Number },
-  isLiked: { type: Boolean, required: true }
+  isLiked: { type: Boolean, required: true, default: false }
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 SongSchema.virtual('artist', {
