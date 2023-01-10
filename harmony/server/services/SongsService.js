@@ -18,7 +18,9 @@ class SongsService {
   // NOTE gets one song
   async findSongById(id) {
     const song = await dbContext.Songs.findById(id).populate('artist')
+    // @ts-ignore
     song.streams++
+    // @ts-ignore
     await song.save()
     return song
   }
@@ -33,7 +35,9 @@ class SongsService {
     const song = await this.findSongById(id)
     // @ts-ignore
     if (song.artistId.toString() != userId) throw new Forbidden('not your song dawg')
+    // @ts-ignore
     await song.remove()
+    // @ts-ignore
     return `deleted ${song.name}`
     // const songs = await dbContext.Songs.findById(id)
     // // @ts-ignore

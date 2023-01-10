@@ -25,9 +25,10 @@
   <div class="row">
     <CommentForm />
   </div>
-
-  <div class="card p-4" v-for="c in comments">
-    div{{ c.body }}
+  <div>
+    <div class="p-4" v-for="c in comments">
+      <div>{{ c.body }}</div>
+    </div>
   </div>
 </template>
 
