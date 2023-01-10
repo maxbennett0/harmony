@@ -10,7 +10,7 @@
             <h3 class="">Likes go here</h3>
             <h3 class="">Stream Count go here</h3>
             <div class="col-12 ">
-              <i class=" mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
+              <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
               <button v-if="song?.artistId == account.id" title="delete song?"
                 class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
             </div>
@@ -38,6 +38,7 @@ import { songsService } from "../services/SongsService.js";
 import { useRoute, useRouter } from "vue-router";
 import CommentForm from "../components/CommentForm.vue";
 import { commentsService } from "../services/CommentsService.js";
+import { likesService } from "../services/LikesService.js";
 export default {
   setup() {
     const route = useRoute();
@@ -77,6 +78,23 @@ export default {
           router.push({ name: "Home" });
         }
         catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
+        }
+      },
+
+      async likeSong() {
+        try {
+          await likesService.likeSong({ songId: route.params.songId })
+        } catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
+        }
+      },
+      async removeLike(likeId) {
+        try {
+          await likesService.removeLike(likeId)
+        } catch (error) {
           logger.error(error);
           Pop.error(error.message);
         }
