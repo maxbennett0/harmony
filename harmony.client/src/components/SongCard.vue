@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-2  col-12 d-flex selectable" @click="findSongById(song._id)">
+  <div class="pt-2  col-6 d-flex selectable" @click="findSongById(song._id)">
     <div>
       <img class="img-fluid img-size d-flex  pb-2" :src="song.coverImg" alt="">
     </div>
@@ -9,6 +9,7 @@
       <h6>{{ song.artist.name }}</h6>
     </div>
   </div>
+  <h6 class="text-center"> listeners:{{ song.streams }}</h6>
 </template>
 
 
@@ -17,11 +18,13 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import Pop from "../utils/Pop.js";
 import { songsService } from "../services/SongsService.js";
+import { useRoute, useRouter } from "vue-router";
 import { logger } from "../utils/Logger.js";
 export default {
   props: { song: { type: Object, required: true } },
 
   setup() {
+
     return {
 
       account: computed(() => AppState.account),

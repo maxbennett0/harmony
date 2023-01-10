@@ -28,7 +28,7 @@ export class SongsController extends BaseController {
   }
   async getAllComments(req, res, next) {
     try {
-      const comment = await commentsService.getAllComments({ songId: req.params._id })
+      const comment = await commentsService.getAllComments({ songId: req.params.id })
       return res.send(comment)
     } catch (error) {
       next(error)

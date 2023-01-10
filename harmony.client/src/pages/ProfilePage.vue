@@ -7,7 +7,8 @@
           {{ profile?.artist.name }}
         </h1>
         <!-- <h2>{{ profile }}</h2> -->
-        <h2>uploaded songs:</h2>
+        <h2>Uploaded songs: {{ profile.songUrl.length }}</h2>
+        <h2>followers:</h2>
       </div>
     </div>
   </div>
@@ -16,11 +17,34 @@
     <h2>{{ profile?.bio }}</h2>
     <h4>{{ profile.artist.songUrl }}</h4>
   </div>
-  <div class="d-flex justify-content-center" v-for="s in songs">
-    <div v-if="profile.artist.id == s.artistId">
-      <SongCard :song="s" />
-    </div>
+
+  <div class="row container-fluid">
+
   </div>
+
+
+  <div class="d-flex  pt-3 pb-2 gap-2 p-5">
+
+    <div class="row">
+      <h4>Artist songs</h4>
+      <div class="" v-for="s in songs">
+        <div v-if="profile.artist.id == s.artistId">
+          <SongCard :song="s" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row card d-flex ">
+      <h4>liked songs:</h4>
+      <img class="img-fluid" :src="profile.coverImg" alt="">
+      <h4>Artist's playlists</h4>
+      <img class="img-fluid" :src="profile.coverImg" alt="">
+      <h4> sees whos following</h4>
+      <img class="img-fluid" :src="profile.coverImg" alt="">
+    </div>
+
+  </div>
+
 </template>
 
 
@@ -70,6 +94,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  background-color: #D9D9D9;
+  background-color: rgb(51 27 61 / 14%);
+  backdrop-filter: blur(5px);
 }
 </style>

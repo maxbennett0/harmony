@@ -18,6 +18,8 @@ class SongsService {
   // NOTE gets one song
   async findSongById(id) {
     const song = await dbContext.Songs.findById(id).populate('artist')
+    song.streams++
+    await song.save()
     return song
   }
   // NOTE also gets the uploaded songs?
