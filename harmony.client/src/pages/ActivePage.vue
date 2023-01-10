@@ -9,7 +9,7 @@
             <h1 class="">{{ song.name }}</h1>
             <!-- TODO add an album name -->
             <h1 class="elevation-5">Likes: {{ likes.length }}</h1>
-            <h1 class="elevation-5">Stream Count go here</h1>
+            <h1 class="elevation-5">streams {{ streams?.length }}</h1>
             <div class="col-12 ">
               <i v-if="foundMe" class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
                 @click="removeLike(foundMe.id)"></i>
