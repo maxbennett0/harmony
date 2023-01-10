@@ -15,5 +15,9 @@ export const AppState = reactive({
   mySongs: [],
   comments: [],
 
-  likes: []
+
+  streams: [],
+
+  likes: [],
+
 })

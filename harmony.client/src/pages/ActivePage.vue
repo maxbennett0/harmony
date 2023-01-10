@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+
     <div class="row cover-img card" :style="`background-image: url()`">
       <div v-if="song" class="col-12">
         <div class="d-flex pb-2">
@@ -7,10 +8,13 @@
           <div class="row m-2 align-items-center">
             <h1 class="">{{ song.name }}</h1>
             <!-- TODO add an album name -->
-            <h3 class="">Likes go here</h3>
-            <h3 class="">Stream Count go here</h3>
+            <h3 class="">Likes go here </h3>
+            <h3 class="">{{ song.streams }}</h3>
             <div class="col-12 ">
-              <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
+              <i v-if="song.isLiked == false"
+                class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
+              <i v-else class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
+                @click="removeLike(song.id)"></i>
               <i v-if="song.isLiked == false"
                 class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
               <i v-else class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
@@ -18,6 +22,7 @@
 
               <button v-if="song?.artistId == account.id" title="delete song?"
                 class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
+              <!-- {{ streams }} -->
             </div>
           </div>
         </div>
@@ -76,6 +81,8 @@ export default {
       song: computed(() => AppState.activeSong),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
+
+      streams: computed(() => AppState.streams),
       async deleteSong() {
         try {
           await songsService.deleteSong(route.params.songId);

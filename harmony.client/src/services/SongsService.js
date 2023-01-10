@@ -29,8 +29,12 @@ class SongsService {
     const res = await api.get('api/songs/' + songId)
     logger.log(res.data)
     AppState.activeSong = res.data
+    AppState.activeSong.streams++
+
+    logger.log(AppState.activeSong.streams, songId, 'streams')
     // logger.log(AppState.activeSong)
   }
+
 
   async getSongsByAccountId(accountId) {
     const res = await api.get('api/profiles/' + accountId)

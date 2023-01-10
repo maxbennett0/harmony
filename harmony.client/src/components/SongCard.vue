@@ -3,6 +3,7 @@
     <div>
       <img class="img-fluid img-size d-flex  pb-2" :src="song.coverImg" alt="">
     </div>
+    {{ song.streams?.length }}
     <!-- <h6 class="d-flex mt-5 ">{{ song.artist.name }} {{ song.name }}</h6> -->
     <div class="row px-2">
       <h6 class="pt-4">{{ song.name }}</h6>
@@ -17,11 +18,13 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import Pop from "../utils/Pop.js";
 import { songsService } from "../services/SongsService.js";
+import { useRoute, useRouter } from "vue-router";
 import { logger } from "../utils/Logger.js";
 export default {
   props: { song: { type: Object, required: true } },
 
   setup() {
+
     return {
 
       account: computed(() => AppState.account),
