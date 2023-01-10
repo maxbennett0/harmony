@@ -9,7 +9,7 @@
             <h1 class="">{{ song.name }}</h1>
             <!-- TODO add an album name -->
             <h3 class="">Likes go here </h3>
-            <h3 class="">{{ song.streams }}</h3>
+            <h3 class=""> listeners: {{ song.streams }}</h3>
             <div class="col-12 ">
               <i v-if="song.isLiked == false"
                 class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
