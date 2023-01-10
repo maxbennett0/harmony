@@ -13,9 +13,14 @@ class LikesService {
     async removeLike(likeId) {
         const res = await api.delete('api/likes/' + likeId)
         logger.log(res.data)
-        AppState.likes = AppState.likes.filter(t => t.id !== likeId)
+        AppState.likes = AppState.likes.filter(l => l.id !== likeId)
         AppState.activeSong.isLiked = false
         return res
+    }
+    async getLikesBySongId(id) {
+        const res = await api.get('api/songs/' + id + '/likes')
+        logger.log('getting likes for this song', res.data)
+        AppState.likes = res.data
     }
 }
 

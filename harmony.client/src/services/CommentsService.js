@@ -12,12 +12,9 @@ class CommentsService {
     AppState.comments = AppState.comments
     logger.log("comments", res.data)
   }
-
-
-
   async getCommentsBySongId(songId) {
     const res = await api.get('api/songs/' + `${songId}/comments`)
-    AppState.comments = res.data
+    AppState.comments.push(res.data)
   }
 }
 

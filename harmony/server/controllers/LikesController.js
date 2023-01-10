@@ -24,7 +24,7 @@ export class LikesController extends BaseController {
 
     async removeLike(req, res, next) {
         try {
-            const message = await likesService.removeLike(req.params.id, req.userInfo.id)
+            const message = await likesService.removeLike(req.params.id)
             return res.send(message)
         } catch (error) {
             next(error)
