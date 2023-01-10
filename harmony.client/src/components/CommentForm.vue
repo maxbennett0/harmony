@@ -40,7 +40,6 @@ export default {
       account: computed(() => AppState.account),
       editable,
       async createComment() {
-        debugger
         try {
           editable.value.songId = route.params.songId
           await commentsService.createComment(editable.value)
