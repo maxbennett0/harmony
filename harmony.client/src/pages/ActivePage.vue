@@ -11,6 +11,11 @@
             <h3 class="">Stream Count go here</h3>
             <div class="col-12 ">
               <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded"></i>
+              <i v-if="song.isLiked == false"
+                class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
+              <i v-else class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
+                @click="removeLike(song.id)"></i>
+
               <button v-if="song?.artistId == account.id" title="delete song?"
                 class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong"></button>
             </div>
@@ -55,7 +60,6 @@ export default {
 
 
     async function getCommentsBySongId() {
-
       try {
         await commentsService.getCommentsBySongId(route.params.songId)
       } catch (error) {
