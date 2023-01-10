@@ -4,8 +4,11 @@ import { audience, clientId, domain } from '../env'
 import { router } from '../router'
 import { accountService } from './AccountService'
 import { api } from './AxiosService'
+import { likesService } from "./LikesService.js"
 // import { firebaseService } from "./FirebaseService.js"
 import { socketService } from './SocketService'
+
+
 
 export const AuthService = initialize({
   domain,
@@ -29,6 +32,15 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function () {
   socketService.authenticate(AuthService.bearer)
   // NOTE if there is something you want to do once the user is authenticated, place that here
   // await firebaseService.login()
+  // async function getLikesBySongId() {
+  //   try {
+  // await likesService.getLikesBySongId(route.params.id)
+  // } catch (error) {
+  //   logger.error(error)
+  //   Pop.error(error.message)
+  // }
+  // }
+
 })
 
 async function refreshAuthToken(config) {
