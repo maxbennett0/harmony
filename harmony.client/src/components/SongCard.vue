@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-2  col-12 d-flex selectable" @click="findSongById(song._id)">
+  <div class="pt-2  col-6 d-flex selectable" @click="findSongById(song._id)">
     <div>
       <img class="img-fluid img-size d-flex  pb-2" :src="song.coverImg" alt="">
     </div>
