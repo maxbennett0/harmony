@@ -26,8 +26,8 @@
     <CommentForm />
   </div>
 
-  <div v-for="c in comments">
-    {{ c.body }}
+  <div class="card p-4" v-for="c in comments">
+    div{{ c.body }}
   </div>
 </template>
 
