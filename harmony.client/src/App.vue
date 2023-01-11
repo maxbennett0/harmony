@@ -12,14 +12,14 @@
       @click="findShuffleSong(activeSong.id)"></i>
     <i v-if="activeSong" id="previousButton" class="mdi mdi-skip-previous text-white selectable"
       @click="findPreviousSong(activeSong.id)"></i>
-    <i id="playButton" class="mdi mdi-play text-white selectable" @click="playSong"></i>
-    <i id="pauseButton" class="mdi mdi-pause text-white selectable" @click="pauseSong"></i>
+    <i v-if="activeSong" id="playButton" class="mdi mdi-play text-white selectable" @click="playSong"></i>
+    <i v-if="activeSong" id="pauseButton" class="mdi mdi-pause text-white selectable" @click="pauseSong"></i>
     <i v-if="activeSong" id="nextButton" class="mdi mdi-skip-next text-white selectable"
       @click="findNextSong(activeSong.id)"></i>
     <h3 v-if="activeSong">
       <span id="currentTime">{{ songDuration }}</span>
     </h3>
-    <div class="progress text-dark">
+    <div v-if="activeSong" class="progress text-dark">
       <div preload="metadata" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25"
         aria-valuemin="0" :aria-valuemax=songDuration>
       </div>
@@ -72,7 +72,7 @@ export default {
       },
       shuffleSong() {
         const songs = AppState.songs
-        let shuffleIndex = Math.floor(Math.random() * songs.length)
+        let shuffleIndex = Math.floor(Math.random() * (songs.length - 1))
         let shuffled = songs[shuffleIndex]
         logger.log(shuffled)
         return shuffled
@@ -124,6 +124,7 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
+
 #grad {
   background-image: linear-gradient(to bottom right, red, yellow);
 }
@@ -151,6 +152,18 @@ footer {
 }
 
 #pauseButton {
+  font-size: xx-large;
+}
+
+#previousButton {
+  font-size: xx-large;
+}
+
+#nextButton {
+  font-size: xx-large;
+}
+
+#shuffleButton {
   font-size: xx-large;
 }
 
