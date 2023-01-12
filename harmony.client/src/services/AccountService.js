@@ -22,6 +22,15 @@ class AccountService {
       logger.error(error)
     }
   }
+
+
+  async searchProfiles(search) {
+    const res = await api.get('api/profiles/', { params: search })
+    AppState.profiles = res.data
+  }
 }
+
+
+
 
 export const accountService = new AccountService()

@@ -37,7 +37,8 @@ export class SongsController extends BaseController {
 
   async getSongs(req, res, next) {
     try {
-      const song = await songsService.getSongs()
+      const query = req.query
+      const song = await songsService.getSongs(query)
       return res.send(song)
     } catch (error) {
       next(error)

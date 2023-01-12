@@ -48,10 +48,17 @@ class SongsService {
   }
 
   // NOTE gets all the songs
-  async getSongs() {
-    const songs = await dbContext.Songs.find().populate('artist')
+  async getSongs(query) {
+    const songs = await dbContext.Songs.find(query).sort('name').populate('artist')
+    logger.log(query, "query loggin")
+    // const filter = new RegExp(query, 'ig')
+    // return await dbContext.Songs
+    //   .aggregate([{
+    //     $match: { query: filter }
+    //   }])
     return songs
   }
+
   // NOTE makes a new song
 
   async createSong(body) {
