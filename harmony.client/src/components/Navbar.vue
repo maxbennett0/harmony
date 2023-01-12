@@ -9,7 +9,7 @@
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+    <SearchBar />
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
@@ -29,11 +29,12 @@
 
 <script>
 import Login from './Login.vue'
+import SearchBar from './SearchBar.vue'
 export default {
   setup() {
     return {}
   },
-  components: { Login }
+  components: { Login, SearchBar }
 }
 </script>
 

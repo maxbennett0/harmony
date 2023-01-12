@@ -11,7 +11,6 @@ class ProfileService {
     const profile = await dbContext.Account.findById(id)
     return profile
   }
-
   /**
     * Returns a list user profiles from a query search of name likeness
     * limits to first 20 without offset
