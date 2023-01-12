@@ -10,7 +10,7 @@
 
   <router-link :to="{ name: 'ProfilePage', params: { profileId: profile._id } }">
 
-    <div class="pt-2  col-6 d-flex selectable ">
+    <div @click="setActive" class="pt-2  col-6 d-flex selectable ">
       <img class=" img-size d-flex  pb-2" :src="profile?.picture" alt="">
       <!-- <h6 class="d-flex mt-5 ">{{ song.artist.name }} {{ song.name }}</h6> -->
       <div class="row px-2">
@@ -24,12 +24,22 @@
 <script>
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
+import Pop from "../utils/Pop.js";
+import { accountService } from "../services/AccountService.js";
 export default {
   props: { profile: { type: Object, required: true } },
-  setup() {
+  setup(props) {
     return {
 
-
+      setActive() {
+        try {
+          console.log('PROFILE PROPS', props.profile);
+          AppState.activeProfile = props.profile
+          console.log(AppState.activeProfile);
+        } catch (error) {
+          Pop.error(error)
+        }
+      }
     }
   }
 };

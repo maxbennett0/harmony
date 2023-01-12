@@ -46,6 +46,12 @@ class SongsService {
     logger.log(res.data)
     AppState.accountSongs = res.data
   }
+
+  async getMySongs(artistId) {
+    const res = await api.get('api/songs/' + artistId + "/profile")
+    logger.log('[MY SONGS]', res.data)
+    AppState.mySongs = res.data
+  }
 }
 
 export const songsService = new SongsService()

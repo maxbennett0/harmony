@@ -11,8 +11,9 @@ class SongsService {
     return mySongs
   }
   // NOTE gets the uploaded songs
-  async getSongsByProfileId(songId) {
-    const songs = await dbContext.Songs.findById(songId)
+  async getSongsByProfileId(artistId) {
+    // debugger
+    const songs = await dbContext.Songs.find({ artistId })
     return songs
   }
   // NOTE gets one song

@@ -13,6 +13,7 @@ export class SongsController extends BaseController {
       .get('', this.getSongs)
       .get('/:id', this.findSongById)
       .get('/:id/comments', this.getAllComments)
+      .get('/:id/profile', this.getSongsByProfileId)
       .get('/:id/likes', this.getLikesBySongId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createSong)
@@ -75,7 +76,8 @@ export class SongsController extends BaseController {
   }
   async getSongsByProfileId(req, res, next) {
     try {
-      const songs = await songsService.getSongsByProfileId(req.params._id)
+
+      const songs = await songsService.getSongsByProfileId(req.params.id)
       res.send(songs)
     } catch (error) {
       next(error)
