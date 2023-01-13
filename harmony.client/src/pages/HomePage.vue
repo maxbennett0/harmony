@@ -20,6 +20,17 @@
         </div>
       </div>
     </div>
+    <form @submit.prevent="upload" class="p-1" action="">
+      <div class="mb-3"> <label for="" class="form-label">Title</label>
+        <input type="text" class="form-control" placeholder="Title..." required />
+      </div>
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Image</label>
+        <input @change="setImage" class="form-control" type="file" accept="image/*" required />
+      </div>
+      <button class="btn mt-2 btn-warning">Submit</button>
+    </form>
+
 
     <div class="row justify-content-center pt-3 pb-2 gap-2 p-5">
       <div v-for="s in songs" class="d-flex card">

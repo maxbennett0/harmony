@@ -84,12 +84,22 @@ export default {
       try {
         await songsService.getMySongs(route.params.profileId)
       } catch (error) {
-
+        logger.error(error);
+        Pop.error(error.message);
+      }
+    }
+    async function getMyLikes() {
+      try {
+        await accountService.getMyLikes()
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
       }
     }
     onMounted(() => {
       getProfile();
       getMySongs();
+      getMyLikes();
     });
     return {
       route,

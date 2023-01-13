@@ -1,7 +1,7 @@
 import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
-import { storage } from "../utils/FirebaseProvider.js"
+import { storage, fbAuth } from "../utils/FirebaseProvider.js"
 import { fb } from "../utils/FirebaseProvider.js"
 import { api } from "./AxiosService.js"
 
