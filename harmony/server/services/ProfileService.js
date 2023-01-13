@@ -28,6 +28,11 @@ class ProfileService {
       .limit(20)
       .exec()
   }
+
+  async getOneProfile(id) {
+    const profile = await dbContext.Account.findById(id)
+    return profile
+  }
 }
 
 export const profileService = new ProfileService()

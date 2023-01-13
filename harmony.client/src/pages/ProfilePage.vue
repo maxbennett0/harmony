@@ -9,6 +9,7 @@
         <!-- <h2>{{ profile }}</h2> -->
         <h2>Uploaded songs: {{ profile.songUrl.length }}</h2>
         <h2>followers:</h2>
+        <button class="btn btn-success"><i class="mdi mdi-check"></i>follow</button>
       </div>
     </div>
   </div>
@@ -85,6 +86,11 @@ export default {
       route,
       profile: computed(() => AppState.activeSong),
       songs: computed(() => AppState.songs),
+
+
+
+
+
     };
   },
   components: { SongCard }
