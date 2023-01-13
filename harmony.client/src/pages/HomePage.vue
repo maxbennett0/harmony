@@ -36,7 +36,7 @@
 import { ref, onMounted, computed } from "vue"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
-// import { firebaseService } from "../services/FirebaseService.js"
+import { firebaseService } from "../services/FirebaseService.js"
 import { songsService } from "../services/SongsService.js"
 import { AppState } from "../AppState.js"
 import SongCard from "../components/SongCard.vue"
@@ -45,7 +45,7 @@ import SongForm from "../components/SongForm.vue"
 export default {
   setup() {
     // NOTE also for firebase stuff
-    // const image = ref([])
+    const image = ref([])
     async function getSongs() {
       try {
         await songsService.getSongs();
@@ -61,19 +61,19 @@ export default {
     return {
       songs: computed(() => AppState.songs),
       // FIXME FIREBASE PROBLEMS
-      // image,
-      // setImage(e) {
-      //   image.value = e.target.files
-      //   logger.log('New image: ', image.value)
-      // },
-      // async upload() {
-      //   try {
-      //     const url = await firebaseService.upload(image.value[0])
-      //   } catch (error) {
-      //     logger.error(error)
-      //     Pop.toast(error.message, 'error')
-      //   }
-      // }
+      image,
+      setImage(e) {
+        image.value = e.target.files
+        logger.log('New image: ', image.value)
+      },
+      async upload() {
+        try {
+          const url = await firebaseService.upload(image.value[0])
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
     };
   },
   components: { SongCard, SongForm }
