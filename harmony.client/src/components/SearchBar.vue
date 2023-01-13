@@ -1,9 +1,9 @@
 <template>
-  <div class="row">
+  <div class="col-12">
 
     <form action="" class="input-group" @submit.prevent="searchApi()">
       <input type="text" class="form-control" v-model="search.name">
-      <button class="btn btn-warning w-25"><i class="mdi mdi-magnify"></i></button>
+      <button class="btn "><i class="mdi mdi-magnify"></i></button>
     </form>
 
   </div>
