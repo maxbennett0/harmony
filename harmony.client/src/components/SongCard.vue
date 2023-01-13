@@ -1,12 +1,14 @@
 <template>
   <div class="pt-2  col-6 d-flex selectable" @click="findSongById(song._id)">
     <div>
-      <img class="img-fluid img-size d-flex  pb-2" :src="song.coverImg" alt="">
+      <router-link :to="{ name: 'ActivePage', params: { songId: song.id } }">
+        <img class="img-fluid img-size d-flex  pb-2" :src="song.coverImg" alt="">
+      </router-link>
     </div>
     <!-- <h6 class="d-flex mt-5 ">{{ song.artist.name }} {{ song.name }}</h6> -->
     <div class="row px-2">
-      <h6 class="pt-4">{{ song.name }}</h6>
-      <h6>{{ song.artist.name }}</h6>
+      <h6 class="pt-4">{{ song?.name }}</h6>
+      <h6>{{ song.artist?.name }}</h6>
     </div>
   </div>
   <h6 class="text-center"> listeners:{{ song.streams }}</h6>

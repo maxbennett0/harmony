@@ -1,51 +1,51 @@
 <template>
   <div class="row cover-img card" :style="`background-image: url()`">
     <div class="col-8 d-flex align-items-center justify-content-center">
-      <img :src="profile?.artist.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-3">
+      <img :src="profile?.picture" alt="" class="img-fluid profile-picture rounded-circle elevation-3">
       <div class="bg-transparent rounded  p-5">
         <h1 class="">
-          {{ profile?.artist.name }}
+          {{ profile?.name }}
         </h1>
         <!-- <h2>{{ profile }}</h2> -->
-        <h2>Uploaded songs: {{ profile.songUrl.length }}</h2>
+        <h2>Uploaded songs: {{ songs.songUrl?.length }}</h2>
         <h2>followers:</h2>
         <button class="btn btn-success"><i class="mdi mdi-check"></i>follow</button>
       </div>
     </div>
   </div>
-  <div class="col-12 d-flex align-items-center justify-content-around">
+  <!-- <div class="col-12 d-flex align-items-center justify-content-around">
     <div class="row cover-img"></div>
     <h2>{{ profile?.bio }}</h2>
     <h4>{{ profile.artist.songUrl }}</h4>
-  </div>
+  </div> -->
 
   <div class="row container-fluid">
 
   </div>
 
-
   <div class="d-flex  pt-3 pb-2 gap-2 p-5">
 
     <div class="row">
       <h4>Artist songs</h4>
-      <div class="" v-for="s in songs">
-        <div v-if="profile.artist.id == s.artistId">
+      <div class="" v-for="s in mySongs">
+        <div>
           <SongCard :song="s" />
         </div>
       </div>
     </div>
-
+    <!-- 
     <div class="row card d-flex ">
       <h4>liked songs:</h4>
-      <img class="img-fluid" :src="profile.coverImg" alt="">
+      <img class="img-fluid" :src="songs?.coverImg" alt="">
       <h4>Artist's playlists</h4>
-      <img class="img-fluid" :src="profile.coverImg" alt="">
+      <img class="img-fluid" :src="songs?.coverImg" alt="">
       <h4> sees whos following</h4>
-      <img class="img-fluid" :src="profile.coverImg" alt="">
-    </div>
-
+      <img class="img-fluid" :src="songs?.coverImg" alt="">
+    </div> -->
   </div>
-
+  <!-- <div v-for="s in mySongs">
+    {{ s.name }}
+  </div> -->
 </template>
 
 
@@ -79,18 +79,23 @@ export default {
         Pop.error(error.message);
       }
     }
+
+    async function getMySongs() {
+      try {
+        await songsService.getMySongs(route.params.profileId)
+      } catch (error) {
+
+      }
+    }
     onMounted(() => {
       getProfile();
+      getMySongs();
     });
     return {
       route,
-      profile: computed(() => AppState.activeSong),
-      songs: computed(() => AppState.songs),
-
-
-
-
-
+      profile: computed(() => AppState.activeProfile),
+      mySongs: computed(() => AppState.mySongs),
+      songs: computed(() => AppState.songs)
     };
   },
   components: { SongCard }

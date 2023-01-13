@@ -3,6 +3,7 @@ import { Schema } from "mongoose";
 
 export const SongSchema = new Schema({
   artistId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
+  // artists: { type: String, required: false },
   name: { type: String, required: true },
   coverImg: { type: String, required: true },
   genre: { type: String },

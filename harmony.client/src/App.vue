@@ -5,57 +5,166 @@
   <main class="color-background">
     <router-view />
   </main>
-  <footer class="color-background container-fluid row sticky-bottom">
-    <!-- <div class="col-12 d-flex justify-content-center mb-4 d-flex">
-      <img class="img-fluid img-vfx pb-4 d-flex rounded" v-if="activeSong" :src="activeSong.coverImg" alt="">
-      <audio id="player" v-if="activeSong" class="audio-size bg-white" controls autoplay
-        :src="activeSong.songUrl"></audio>
-    </div> -->
-    <div v-if="activeSong" class="music-player col-12">
-      <div class="song-bar">
-        <div class="song-infos">
-          <div class="image-container">
-            <img class="img-fluid" :src="activeSong.coverImg" alt="" />
-          </div>
-          <div class="song-description">
-            <p class="title">
-              <router-link :to="{ name: 'ActivePage', params: { songId: activeSong.id } }">
-                {{ activeSong.name }}
-              </router-link>
-            </p>
-            <p class=" artist">
-              <router-link :to="{ name: 'ProfilePage', params: { profileId: activeSong.artistId } }">
-                {{ activeSong.artist.name }}
-              </router-link>
-            </p>
-          </div>
+  <footer v-if="activeSong" class="container-fluid d-flex sticky-bottom bg-dark p-3">
+    <audio id="player" class="bg-dark" @loadeddata="setSongDuration" hidden :src="activeSong.songUrl">
+    </audio>
+    <div class="icons">
+      <i id="shuffleButton" class="mdi mdi-shuffle text-white selectable" @click="findShuffleSong(activeSong.id)"></i>
+      <i id="previousButton" class="mdi mdi-skip-previous text-white selectable"
+        @click="findPreviousSong(activeSong.id)"></i>
+      <i v-if="activeSong" id="pauseButton" class="mdi mdi-pause text-white selectable" @click="pauseSong"></i>
+      <i id="playButton" class="mdi mdi-play text-white selectable" @click="playSong"></i>
+      <i id="nextButton" class="mdi mdi-skip-next text-white selectable" @click="findNextSong(activeSong.id)"></i>
+    </div>
+    <h3 id="currentTime" class="align-items-center d-flex mx-2">
+      <span>{{ formatTime(currentTime) }}</span>
+    </h3>
+    <div class="d-flex align-items-center bar-length">
+      <div class="progress text-dark">
+        <div preload="metadata" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25"
+          aria-valuemin="0" :aria-valuemax=songDuration>
         </div>
+        <input id="seekSlider" preload="metadata" type="range" min="0" :max="songDuration" v-model="currentTime"
+          @mouseup="setSongTime" @mousedown="seeking = true">
       </div>
-      <div class="progress-controller">
-        <div class="control-buttons">
-          <!-- <i class="mdi mdi-shuffle"></i> -->
-          <audio id="player" class="bg-dark audio-vfx" controls autoplay :src="activeSong.songUrl"></audio>
-          <i class="mdi mdi-loop"></i>
-        </div>
-      </div>
+      <h3 id="endingTime" class="align-items-center d-flex mx-2">
+        {{ formatTime(songDuration) }}
+      </h3>
     </div>
   </footer>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from "vue-router"
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
+import { songsService } from "./services/SongsService.js"
+import { logger } from "./utils/Logger.js"
+import Pop from "./utils/Pop.js"
 
 export default {
   setup() {
+    const currentTime = ref(0)
+    const songDuration = ref(0)
+    const playState = ref(false)
+    const seeking = ref(false)
+    let playInterval = null
+    const autoPlay = ref(false)
     const route = useRoute()
+    function incrementPlayer() {
+      if (!seeking.value) currentTime.value += 1
+      if (currentTime.value >= songDuration.value) {
+        pauseSong()
+        currentTime.value = 0
+        if (autoPlay.value) {
+          nextSong()
+          playSong()
+        }
+      }
+    }
+    function playSong() {
+      const player = document.getElementById('player')
+      playState.value = true
+      if (!playInterval)
+        playInterval = setInterval(incrementPlayer, 1000)
+      player?.play()
+    }
+    function pauseSong() {
+      playState.value = false
+      playInterval = clearInterval(playInterval)
+      player.pause()
+    }
+    function nextSong(id) {
+      const songs = AppState.songs
+      let foundIndex = songs.findIndex(s => s.id == id)
+      let nextSongIndex = foundIndex + 1
+      let nextSong = songs[nextSongIndex]
+      return nextSong
+    }
+    function previousSong(id) {
+      const songs = AppState.songs
+      let foundIndex = songs.findIndex(s => s.id == id)
+      let nextSongIndex = foundIndex - 1
+      let nextSong = songs[nextSongIndex]
+      return nextSong
+    }
     return {
+      seeking,
+      currentTime,
+      songDuration,
       route,
       appState: computed(() => AppState),
       songs: computed(() => AppState.songs),
       activeSong: computed(() => AppState.activeSong),
+      playSong,
+      pauseSong,
+      nextSong,
+      previousSong,
+
+      setSongTime(ev) {
+        logger.log(ev.target.value)
+        let set = parseInt(ev.target.value)
+        const player = document.getElementById('player')
+        player.currentTime = set
+        currentTime.value = set
+        seeking.value = false
+        if (!playState.value) {
+          playSong()
+        }
+      },
+      // NOTE find song by the id. with id, find index, play song with at new index
+      shuffleSong() {
+        const songs = AppState.songs
+        let shuffleIndex = Math.floor(Math.random() * (songs.length - 1))
+        let shuffled = songs[shuffleIndex]
+        logger.log(shuffled)
+        return shuffled
+      },
+      async findNextSong(songId) {
+        let nextSong = nextSong(songId)
+        logger.log(nextSong)
+        try {
+          await songsService.findSongById(nextSong.id)
+          player?.play()
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+      async findPreviousSong(songId) {
+        let previousSong = previousSong(songId)
+        logger.log(previousSong)
+        try {
+          await songsService.findSongById(previousSong.id)
+          player?.play()
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+      async findShuffleSong(songId) {
+        let shuffleSong = this.shuffleSong(songId)
+        logger.log(shuffleSong)
+        try {
+          await songsService.findSongById(shuffleSong.id)
+          player?.play()
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+      setSongDuration(ev) {
+        let audioTag = ev.target
+        let duration = audioTag.duration
+        songDuration.value = duration
+      },
+      formatTime(s) {
+        let minutes = Math.floor(s / 60)
+        let seconds = Math.trunc(s % 60)
+        seconds = seconds < 10 ? '0' + seconds : seconds
+        return minutes + ':' + seconds
+      }
     }
   },
   components: { Navbar }
@@ -64,40 +173,15 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
-:root {
-  --main-height: calc(100vh - 32px - 64px);
-}
-
-.img-vfx {
-  height: 100px;
-  width: 100px;
-}
-
-audio {
-  background-color: black;
-  color: black;
-}
-
-footer {
-  display: grid;
-  place-content: center;
-  height: 32px;
-  width: 100%;
-}
 
 #grad {
   background-image: linear-gradient(to bottom right, red, yellow);
 }
 
-.audio-size {
-  width: 215vh;
-  padding: 5px;
+.icons {
+  width: 20%;
 }
 
-* {
-  box-sizing: border-box;
-  font-family: "circular std book", sans-serif;
-}
 
 body {
   margin: 0;
@@ -110,181 +194,58 @@ body {
   overflow-y: scroll;
 }
 
-audio::-webkit-media-controls-play-button,
-audio::-webkit-media-controls-panel {
-  background-color: #09ff00;
-  color: #ffa3d9;
-  border-radius: 10em;
-
+footer {
+  min-width: 100%;
+  margin: 0%;
+  padding: 0%;
 }
 
-.music-player {
-  --primary-color: #ddd;
-  --secondary-color: #999;
-  --green-color: #2d5;
-  --padding: 1em;
-  background-color: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // position: relative;
-  height: 7rem;
-  // padding: var(--padding);
-  color: var(--primary-color);
+#playButton {
+  font-size: xx-large;
+}
+
+#pauseButton {
+  font-size: xx-large;
+}
+
+#previousButton {
+  font-size: xx-large;
+}
+
+#nextButton {
+  font-size: xx-large;
+}
+
+#shuffleButton {
+  font-size: xx-large;
+}
+
+#seekSlider {
   width: 100%;
 }
 
-i {
-  color: var(--secondary-color);
+#currentTime {
+  margin: 0%;
 }
 
-i:hover {
-  color: var(--primary-color);
+#endingTime {
+  margin: 0%;
 }
 
-.song-bar {
-  position: absolute;
-  left: var(--padding);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1.5rem;
-  width: 25%;
-}
-
-.song-infos {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
-
-.image-container {
-  --size: 4.5em;
-  flex-shrink: 0;
-  width: var(--size);
-  height: var(--size);
-}
-
-.image-container img {
+.bar-length {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.song-description p {
-  margin: 0.2em;
-}
-
-.title,
-.artist {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-}
-
-.title:hover,
-.artist:hover {
-  text-decoration: underline;
-}
-
-.artist {
-  color: var(--secondary-color);
-}
-
-.icons {
-  display: flex;
-  gap: 1em;
-}
-
-.progress-controller {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5em;
-  color: var(--secondary-color);
-}
-
-.control-buttons {
-  display: flex;
-  align-items: center;
-  gap: 2em;
-}
-
-.play-pause {
-  display: inline-block;
-  padding: 1em;
-  background-color: var(--primary-color);
-  color: #111;
-  border-radius: 50%;
-}
-
-.play-pause:hover {
-  transform: scale(1.1);
-  color: #111;
-}
-
-.progress-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1em;
-}
-
-.progress-bar {
-  height: 4px;
-  border-radius: 10px;
-  width: 30%;
-  background-color: #ccc4;
 }
 
 .progress {
-  position: relative;
-  height: 100%;
-  width: 30%;
-  border-radius: 10px;
-  background-color: var(--secondary-color);
+  width: 100%;
 }
 
-.progress-bar:hover .progress {
-  background-color: var(--green-color);
+.progress-bar {
+  width: 100%;
 }
 
-.progress-bar:hover .progress::after {
-  content: "";
-  position: absolute;
-  --size: 1em;
-  width: var(--size);
-  height: var(--size);
-  right: 0;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  transform: translate(50%, calc(2px - 50%));
-}
-
-.other-features {
-  position: absolute;
-  right: var(--padding);
-  display: flex;
-  flex-direction: row;
-  gap: 1em;
-}
-
-.volume-bar {
-  display: flex;
-  align-items: center;
-  gap: .7em;
-}
-
-.volume-bar .progress-bar {
-  width: 6em;
-}
-
-.volume-bar .progress-bar:hover .progress::after {
-  --size: .8em;
+#currentTime {
+  margin: 0px;
+  padding: 0%;
 }
 </style>
