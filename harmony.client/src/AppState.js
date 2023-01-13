@@ -21,7 +21,7 @@ export const AppState = reactive({
   likes: [],
 
   followers: [],
-  myFollowers: []
-  profiles: []
+  myFollowers: [],
+  profile: []
 
 })
