@@ -1,10 +1,10 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
 import { followersService } from '../services/FollowersService.js'
+import { firebaseService } from "../services/FirebaseService.js"
 import { songsService } from "../services/SongsService.js"
+import { likesService } from "../services/LikesService.js"
 import BaseController from '../utils/BaseController'
-// import { firebaseService } from "../services/FirebaseService.js"
-
 export class AccountController extends BaseController {
   constructor() {
     super('account')
@@ -14,7 +14,8 @@ export class AccountController extends BaseController {
       .get('/songs', this.getMySongs)
       .get('/followers', this.getFollowing)
       .get('/:id/profile', this.getFollowersByProfileId)
-    // .get('/firebase', this.getFirebaseToken)
+      .get('/likes', this.getMyLikes)
+      .get('/firebase', this.getFirebaseToken)
     // TODO figure out what this is in the readme
     // .put('', this.editAccount)
   }
@@ -54,13 +55,22 @@ export class AccountController extends BaseController {
     }
   }
 
-  // async getFirebaseToken(req, res, next) {
-  //   try {
-  //     const token = await firebaseService.getToken(req.userInfo.id)
-  //     // NOTE send the token back as an object, or else you won't be able to target it if needed
-  //     return res.send({ token })
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
+  async getFirebaseToken(req, res, next) {
+    try {
+      const token = await firebaseService.getToken(req.userInfo.id)
+      // NOTE send the token back as an object, or else you won't be able to target it if needed
+      return res.send({ token })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getMyLikes(req, res, next) {
+    try {
+      const likes = await likesService.getMyLikes(req.userInfo.id)
+      return res.send(likes)
+    } catch (error) {
+      next(error)
+    }
+  }
 }

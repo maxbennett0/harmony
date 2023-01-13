@@ -19,8 +19,11 @@ export const AppState = reactive({
   streams: [],
 
   likes: [],
+  myLikes: [],
 
   followers: [],
+  myFollowers: [],
+  profile: []
   myFollowers: [],
   profiles: []
 

@@ -1,4 +1,3 @@
-// import { logger } from "firebase-functions/v1"
 import { AppState } from "../AppState.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"

@@ -20,6 +20,17 @@
         </div>
       </div>
     </div>
+    <form @submit.prevent="upload" class="p-1" action="">
+      <div class="mb-3"> <label for="" class="form-label">Title</label>
+        <input type="text" class="form-control" placeholder="Title..." required />
+      </div>
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Image</label>
+        <input @change="setImage" class="form-control" type="file" accept="image/*" required />
+      </div>
+      <button class="btn mt-2 btn-warning">Submit</button>
+    </form>
+
 
     <div class="row justify-content-center pt-3 pb-2 gap-2 p-5">
       <div v-for="s in songs" class="d-flex card">
@@ -36,7 +47,7 @@
 import { ref, onMounted, computed } from "vue"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
-// import { firebaseService } from "../services/FirebaseService.js"
+import { firebaseService } from "../services/FirebaseService.js"
 import { songsService } from "../services/SongsService.js"
 import { AppState } from "../AppState.js"
 import SongCard from "../components/SongCard.vue"
@@ -45,7 +56,7 @@ import SongForm from "../components/SongForm.vue"
 export default {
   setup() {
     // NOTE also for firebase stuff
-    // const image = ref([])
+    const image = ref([])
     async function getSongs() {
       try {
         await songsService.getSongs();
@@ -61,19 +72,19 @@ export default {
     return {
       songs: computed(() => AppState.songs),
       // FIXME FIREBASE PROBLEMS
-      // image,
-      // setImage(e) {
-      //   image.value = e.target.files
-      //   logger.log('New image: ', image.value)
-      // },
-      // async upload() {
-      //   try {
-      //     const url = await firebaseService.upload(image.value[0])
-      //   } catch (error) {
-      //     logger.error(error)
-      //     Pop.toast(error.message, 'error')
-      //   }
-      // }
+      image,
+      setImage(e) {
+        image.value = e.target.files
+        logger.log('New image: ', image.value)
+      },
+      async upload() {
+        try {
+          const url = await firebaseService.upload(image.value[0])
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
     };
   },
   components: { SongCard, SongForm }
