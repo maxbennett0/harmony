@@ -26,8 +26,9 @@
     <CommentForm />
   </div>
   <div>
-    <div class="p-4" v-for="c in comments">
-      <div>{{ c.body }}</div>
+    <div class="p-4 card" v-for="c in comments">
+      <h4><img :src="account.picture" alt="" class="img-fluid comment-img elevation-3" />name here</h4>
+      <h2>{{ c.body }}</h2> <button class="btn btn-danger col-1"><i class="mdi mdi-delete"></i> delete</button>
     </div>
   </div>
 </template>
@@ -149,5 +150,10 @@ button {
 
 button:hover {
   background-color: red;
+}
+
+.comment-img {
+  width: 5vh;
+  height: 5vh;
 }
 </style>

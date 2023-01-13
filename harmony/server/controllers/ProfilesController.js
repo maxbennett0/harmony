@@ -7,12 +7,22 @@ export class ProfilesController extends BaseController {
     this.router
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
+      .get('/:id', this.getOneProfile)
   }
 
   async getProfiles(req, res, next) {
     try {
       const profiles = await profileService.findProfiles(req.query.name, req.query.offset)
       res.send(profiles)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getOneProfile(req, res, next) {
+    try {
+      const profile = await profileService.getOneProfile(req.params.id)
+      return res.send(profile)
     } catch (error) {
       next(error)
     }
