@@ -9,7 +9,7 @@
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <SearchBar />
+
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
@@ -18,6 +18,9 @@
           </router-link>
         </li>
       </ul>
+      <div class="justify-content-center row">
+        <SearchBar />
+      </div>
       <button type="button" class=" btn mx-2 button-vfx" data-bs-toggle="modal" data-bs-target="#exampleModal">
         upload
       </button>
