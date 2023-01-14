@@ -32,20 +32,14 @@
           <SongCard :song="s" />
         </div>
       </div>
+      <div v-for="l in myLikes">
+        <h4>My Liked Songs</h4>
+        <div>
+          <SongCard :song="l.song" />
+        </div>
+      </div>
     </div>
-    <!-- 
-    <div class="row card d-flex ">
-      <h4>liked songs:</h4>
-      <img class="img-fluid" :src="songs?.coverImg" alt="">
-      <h4>Artist's playlists</h4>
-      <img class="img-fluid" :src="songs?.coverImg" alt="">
-      <h4> sees whos following</h4>
-      <img class="img-fluid" :src="songs?.coverImg" alt="">
-    </div> -->
   </div>
-  <!-- <div v-for="s in mySongs">
-    {{ s.name }}
-  </div> -->
 </template>
 
 
@@ -56,6 +50,7 @@ import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
 import { accountService } from "../services/AccountService.js";
 import { songsService } from "../services/SongsService.js";
+import { likesService } from "../services/LikesService.js"
 import { useRoute } from "vue-router";
 import SongCard from "../components/SongCard.vue";
 export default {
@@ -90,7 +85,7 @@ export default {
     }
     async function getMyLikes() {
       try {
-        await accountService.getMyLikes()
+        await likesService.getMyLikes(route.params.profileId)
       } catch (error) {
         logger.error(error)
         Pop.error(error.message)
@@ -105,7 +100,8 @@ export default {
       route,
       profile: computed(() => AppState.activeProfile),
       mySongs: computed(() => AppState.mySongs),
-      songs: computed(() => AppState.songs)
+      songs: computed(() => AppState.songs),
+      myLikes: computed(() => AppState.myLikes)
     };
   },
   components: { SongCard }

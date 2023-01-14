@@ -1,3 +1,4 @@
+import { likesService } from "../services/LikesService.js"
 import { profileService } from '../services/ProfileService.js'
 import BaseController from '../utils/BaseController'
 
@@ -8,6 +9,7 @@ export class ProfilesController extends BaseController {
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
       .get('/:id', this.getOneProfile)
+      .get('/:id/likes', this.getMyLikes)
   }
 
   async getProfiles(req, res, next) {
@@ -21,7 +23,7 @@ export class ProfilesController extends BaseController {
 
   async getOneProfile(req, res, next) {
     try {
-      const profile = await profileService.getOneProfile(req.params.id)
+      const profile = await profileService.getOneProfile(req.userInfo.id)
       return res.send(profile)
     } catch (error) {
       next(error)
@@ -32,6 +34,14 @@ export class ProfilesController extends BaseController {
     try {
       const profile = await profileService.getProfileById(req.params.id)
       res.send(profile)
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getMyLikes(req, res, next) {
+    try {
+      const likes = await likesService.getMyLikes(req.params.id)
+      return res.send(likes)
     } catch (error) {
       next(error)
     }

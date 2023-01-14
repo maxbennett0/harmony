@@ -5,14 +5,14 @@ import { Schema } from "mongoose";
 
 
 export const PlaylistSchema = new Schema({
-  creatorId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
-  coverImg: { type: String, required: true },
+  artistId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
   name: { type: String, required: true },
+  coverImg: { type: String, required: true },
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 
-PlaylistSchema.virtual('creator', {
-  localField: 'creatorId',
+PlaylistSchema.virtual('artist', {
+  localField: 'artistId',
   foreignField: '_id',
   justOne: true,
   ref: 'Account'

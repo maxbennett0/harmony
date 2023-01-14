@@ -7,6 +7,7 @@ class LikesService {
         const res = await api.post('api/likes', songId)
         logger.log('creating like', res.data)
         AppState.likes.push(res.data)
+        AppState.myLikes.push(res.data)
         AppState.activeSong.isLiked = true
         logger.log(AppState.likes)
     }
@@ -21,6 +22,13 @@ class LikesService {
         const res = await api.get('api/songs/' + id + '/likes')
         logger.log('getting likes for this song', res.data)
         AppState.likes = res.data
+        // AppState.myLikes = res.data
+    }
+    async getMyLikes(profileId) {
+        const res = await api.get('api/profiles/' + profileId + '/likes')
+        logger.log('getting account likes', res.data)
+        // AppState.likes = res.data
+        AppState.myLikes = res.data
     }
 }
 

@@ -9,11 +9,14 @@
     <audio id="player" class="bg-dark" @loadeddata="setSongDuration" hidden :src="activeSong.songUrl">
     </audio>
     <div class="icons">
+      <i id="loopButton" class="mdi mdi-sync text-white selectable" @click="loopSong(activeSong.id)"></i>
       <i id="shuffleButton" class="mdi mdi-shuffle text-white selectable" @click="findShuffleSong(activeSong.id)"></i>
       <i id="previousButton" class="mdi mdi-skip-previous text-white selectable"
         @click="findPreviousSong(activeSong.id)"></i>
-      <i v-if="activeSong" id="pauseButton" class="mdi mdi-pause text-white selectable" @click="pauseSong"></i>
-      <i id="playButton" class="mdi mdi-play text-white selectable" @click="playSong"></i>
+      <i v-if="activeSong && playState" id="pauseButton" class="mdi mdi-pause text-white selectable"
+        @click="pauseSong"></i>
+      <i v-else-if="!playState && activeSong" id="playButton" class="mdi mdi-play text-white selectable"
+        @click="playSong"></i>
       <i id="nextButton" class="mdi mdi-skip-next text-white selectable" @click="findNextSong(activeSong.id)"></i>
     </div>
     <h3 id="currentTime" class="align-items-center d-flex mx-2">
@@ -49,12 +52,14 @@ export default {
     const songDuration = ref(0)
     const playState = ref(false)
     const seeking = ref(false)
-    let playInterval = null
+    const playInterval = ref(null)
     const autoPlay = ref(false)
     const route = useRoute()
+
     function incrementPlayer() {
-      if (!seeking.value) currentTime.value += 1
+      if (!seeking.value && playState.value) currentTime.value += 1
       if (currentTime.value >= songDuration.value) {
+        logger.log('song ended')
         pauseSong()
         currentTime.value = 0
         if (autoPlay.value) {
@@ -64,15 +69,18 @@ export default {
       }
     }
     function playSong() {
+      logger.log('playing')
       const player = document.getElementById('player')
       playState.value = true
-      if (!playInterval)
-        playInterval = setInterval(incrementPlayer, 1000)
+      if (!playInterval.value) {
+        playInterval.value = setInterval(incrementPlayer, 1000)
+      }
       player?.play()
     }
     function pauseSong() {
+      logger.log('pausing')
       playState.value = false
-      playInterval = clearInterval(playInterval)
+      playInterval.value = clearInterval(playInterval.value)
       player.pause()
     }
     function nextSong(id) {
@@ -85,21 +93,22 @@ export default {
     function previousSong(id) {
       const songs = AppState.songs
       let foundIndex = songs.findIndex(s => s.id == id)
-      let nextSongIndex = foundIndex - 1
-      let nextSong = songs[nextSongIndex]
-      return nextSong
+      let previousSongIndex = foundIndex - 1
+      let previousSong = songs[previousSongIndex]
+      return previousSong
     }
     return {
       seeking,
       currentTime,
       songDuration,
       route,
+      playInterval,
+      playState,
       appState: computed(() => AppState),
       songs: computed(() => AppState.songs),
       activeSong: computed(() => AppState.activeSong),
       playSong,
       pauseSong,
-      nextSong,
       previousSong,
 
       setSongTime(ev) {
@@ -109,9 +118,7 @@ export default {
         player.currentTime = set
         currentTime.value = set
         seeking.value = false
-        if (!playState.value) {
-          playSong()
-        }
+        playSong()
       },
       // NOTE find song by the id. with id, find index, play song with at new index
       shuffleSong() {
@@ -121,34 +128,49 @@ export default {
         logger.log(shuffled)
         return shuffled
       },
-      async findNextSong(songId) {
-        let nextSong = nextSong(songId)
-        logger.log(nextSong)
+      async loopSong(songId) {
         try {
-          await songsService.findSongById(nextSong.id)
-          player?.play()
+          await songsService.findSongById(songId)
+          player.loop = !player.loop
+          console.log(player.loop)
+          return
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+
+
+      async findNextSong(songId) {
+        logger.log('next song')
+        let foundNextSong = nextSong(songId)
+        logger.log(foundNextSong)
+        try {
+          await songsService.findSongById(foundNextSong.id)
+          playSong()
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
         }
       },
       async findPreviousSong(songId) {
-        let previousSong = previousSong(songId)
-        logger.log(previousSong)
+        logger.log('previous song')
+        let foundPreviousSong = previousSong(songId)
+        logger.log(foundPreviousSong)
         try {
-          await songsService.findSongById(previousSong.id)
-          player?.play()
+          await songsService.findSongById(foundPreviousSong.id)
+          playSong()
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
         }
       },
       async findShuffleSong(songId) {
-        let shuffleSong = this.shuffleSong(songId)
-        logger.log(shuffleSong)
+        let foundShuffleSong = this.shuffleSong(songId)
+        logger.log(foundShuffleSong)
         try {
-          await songsService.findSongById(shuffleSong.id)
-          player?.play()
+          await songsService.findSongById(foundShuffleSong.id)
+          playSong()
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
@@ -217,6 +239,10 @@ footer {
 }
 
 #shuffleButton {
+  font-size: xx-large;
+}
+
+#loopButton {
   font-size: xx-large;
 }
 
