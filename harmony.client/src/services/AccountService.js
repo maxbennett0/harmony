@@ -27,10 +27,7 @@ class AccountService {
     const res = await api.get('api/profiles/', { params: search })
     AppState.profiles = res.data
   }
-  async getMyLikes() {
-    const res = await api.get('/account/likes')
-    AppState.myLikes = res.data
-  }
+
 }
 
 

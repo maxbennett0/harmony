@@ -12,6 +12,9 @@
     </div>
     <h6 class="text-center"> listeners:{{ song.streams }}</h6>
   </div>
+  <h6 class="text-center"> listeners:
+    {{ song?.streams }}
+  </h6>
 </template>
 
 
@@ -31,6 +34,7 @@ export default {
 
       account: computed(() => AppState.account),
       activeSong: computed(() => AppState.activeSong),
+      myLikes: computed(() => AppState.myLikes),
 
       async findSongById(song) {
         try {

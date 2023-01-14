@@ -14,7 +14,6 @@ export class AccountController extends BaseController {
       .get('/songs', this.getMySongs)
       .get('/followers', this.getFollowing)
       .get('/:id/profile', this.getFollowersByProfileId)
-      .get('/likes', this.getMyLikes)
       .get('/firebase', this.getFirebaseToken)
     // TODO figure out what this is in the readme
     // .put('', this.editAccount)
@@ -60,15 +59,6 @@ export class AccountController extends BaseController {
       const token = await firebaseService.getToken(req.userInfo.id)
       // NOTE send the token back as an object, or else you won't be able to target it if needed
       return res.send({ token })
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getMyLikes(req, res, next) {
-    try {
-      const likes = await likesService.getMyLikes(req.userInfo.id)
-      return res.send(likes)
     } catch (error) {
       next(error)
     }

@@ -6,14 +6,15 @@
         <div class="d-flex pb-2">
           <img class="img-fluid mt-2" :src="song.coverImg" alt="">
           <div class="row m-2 align-items-center">
-            <h1 class="">{{ song.name }}</h1>
+            <h1>{{ song.name }}</h1>
             <!-- TODO add an album name -->
-            <h1 class="elevation-5">Likes: {{ likes.length }}</h1>
-            <h1 class="elevation-5">streams {{ song.streams }}</h1>
+            <h1>Likes: {{ likes.length }}</h1>
+            <h1>streams {{ song.streams }}</h1>
             <div class="col-12 ">
-              <i v-if="foundMe" class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded"
+              <i v-if="!foundMe" class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded my-2"
+                @click="likeSong"></i>
+              <i v-else class="elevation-5 mdi mdi-heart-broken fs-2 p-3 selectable bg-danger rounded my-2"
                 @click="removeLike(foundMe.id)"></i>
-              <i class="elevation-5 mdi mdi-heart-outline fs-2 p-3 selectable bg-danger rounded" @click="likeSong"></i>
               <button v-if="song?.artistId == account.id" title="delete song?"
                 class="btn btn-outline bg-danger mdi mdi-delete" @click="deleteSong(song.id)"></button>
             </div>
@@ -22,12 +23,13 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <CommentForm />
   </div>
   <div>
     <div class="p-4 card" v-for="c in comments">
-      <h4><img :src="account.picture" alt="" class="img-fluid comment-img elevation-3" />name here</h4>
+      <h4><img :src="account.picture" alt="" class="img-fluid comment-img elevation-3" />{{ account.name }}</h4>
       <h2>{{ c.body }}</h2> <button class="btn btn-danger col-1"><i class="mdi mdi-delete"></i> delete</button>
     </div>
   </div>
@@ -59,7 +61,6 @@ export default {
       }
     }
 
-
     async function getCommentsBySongId() {
       try {
         await commentsService.getCommentsBySongId(route.params.songId)
@@ -88,7 +89,7 @@ export default {
       song: computed(() => AppState.activeSong),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
-      likes: computed(() => AppState.likes),
+      likes: computed(() => AppState.myLikes),
       foundMe: computed(() => AppState.likes.find(l => l.accountId == AppState.account.id)),
       async deleteSong() {
         try {
