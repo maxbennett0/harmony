@@ -49,8 +49,9 @@ class SongsService {
   }
 
   // NOTE gets all the songs
-  async getSongs(query) {
-    const songs = await dbContext.Songs.find(query).sort('name').populate('artist')
+  async getSongs(query = '') {
+    const filter = new RegExp(query, 'ig')
+    const songs = await dbContext.Songs.find({ name: { $regex: filter } }).sort('name').populate('artist')
     logger.log(query, "query loggin")
     // const filter = new RegExp(query, 'ig')
     // return await dbContext.Songs

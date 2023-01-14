@@ -6,7 +6,8 @@
     <router-view />
   </main>
   <footer v-if="activeSong" class="container-fluid d-flex sticky-bottom bg-dark p-3">
-    <audio id="player" class="bg-dark" @loadeddata="setSongDuration" hidden :src="activeSong.songUrl">
+    <img class="img-fluid img-size" :src="activeSong.coverImg" alt="" srcset="">
+    <audio id="player" class="bg-dark" @loadeddata="setSongDuration" autoplay hidden :src="activeSong.songUrl">
     </audio>
     <div class="icons">
       <i id="shuffleButton" class="mdi mdi-shuffle text-white selectable" @click="findShuffleSong(activeSong.id)"></i>
@@ -247,5 +248,9 @@ footer {
 #currentTime {
   margin: 0px;
   padding: 0%;
+}
+
+.img-size {
+  height: 10vh;
 }
 </style>
