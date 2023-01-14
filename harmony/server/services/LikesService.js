@@ -5,6 +5,10 @@ import { songsService } from "./SongsService.js"
 
 
 class LikesService {
+    async getMyLikes(accountId) {
+        const myLikes = await dbContext.Likes.find({ accountId }).populate('song')
+        return myLikes
+    }
     async createLike(body) {
         const song = await songsService.findSongById(body.songId)
         if (song.isLiked == true) throw new BadRequest('you already liked it')

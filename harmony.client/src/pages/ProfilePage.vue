@@ -103,7 +103,16 @@ export default {
       try {
         await songsService.getMySongs(route.params.profileId)
       } catch (error) {
-
+        logger.error(error);
+        Pop.error(error.message);
+      }
+    }
+    async function getMyLikes() {
+      try {
+        await accountService.getMyLikes()
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
       }
     }
     onMounted(() => {
@@ -111,6 +120,7 @@ export default {
       getMySongs();
       getFollowersByProfileId();
       getFollowing();
+      getMyLikes();
     });
     return {
       route,

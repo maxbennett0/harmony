@@ -1,18 +1,23 @@
-// import firebaseAdmin from "firebase-admin"
-// const firebaseAccountKey = require('../../Firebase.env.json');
+import firebaseAdmin from "firebase-admin"
+import { logger } from "../utils/Logger.js";
+const firebaseAccountKey = require('../../Firebase.env.json');
+// import firebaseAccountKey from '../../Firebase.env.json'
 
-// class FirebaseService {
-//   constructor() {
-//     firebaseAdmin.initializeApp({
-//       // @ts-ignore
-//       credential: firebaseAdmin.credential.cert(firebaseAccountKey)
-//     })
-//   }
+class FirebaseService {
+  constructor() {
 
-//   async getToken(uid) {
-//     const token = await firebaseAdmin.auth().createCustomToken(uid)
-//     return token
-//   }
-// }
+    let fbAccount = firebaseAccountKey
+    let cred = firebaseAdmin.credential.cert('Firebase.env.json')
+    firebaseAdmin.initializeApp({
+      // @ts-ignore
+      credential: cred
+    })
+  }
 
-// export const firebaseService = new FirebaseService()
+  async getToken(uid) {
+    const token = await firebaseAdmin.auth().createCustomToken(uid)
+    return token
+  }
+}
+
+export const firebaseService = new FirebaseService()
