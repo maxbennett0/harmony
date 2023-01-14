@@ -51,10 +51,11 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, ref } from 'vue';
 import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
 import { accountService } from "../services/AccountService.js";
+import { followersService } from "../services/FollowersService.js";
 import { songsService } from "../services/SongsService.js";
 import { useRoute } from "vue-router";
 import SongCard from "../components/SongCard.vue";
@@ -80,6 +81,24 @@ export default {
       }
     }
 
+    async function getFollowersByProfileId() {
+      try {
+        await followersService.getFollowersByProfileId(route.params.profileId)
+      } catch (error) {
+        logger.error(error);
+        Pop.error(error.message);
+      }
+    }
+
+    async function getFollowing() {
+      try {
+        await followersService.getFollowing();
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
+      }
+    }
+
     async function getMySongs() {
       try {
         await songsService.getMySongs(route.params.profileId)
@@ -90,12 +109,19 @@ export default {
     onMounted(() => {
       getProfile();
       getMySongs();
+      getFollowersByProfileId();
+      getFollowing();
     });
     return {
       route,
       profile: computed(() => AppState.activeProfile),
       mySongs: computed(() => AppState.mySongs),
-      songs: computed(() => AppState.songs)
+      songs: computed(() => AppState.songs),
+      myFollowers: computed(() => AppState.myFollowers),
+      followers: computed(() => AppState.followers),
+
+
+
     };
   },
   components: { SongCard }
