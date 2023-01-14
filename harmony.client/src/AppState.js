@@ -24,5 +24,7 @@ export const AppState = reactive({
   followers: [],
   myFollowers: [],
   profile: []
+  myFollowers: [],
+  profiles: []
 
 })
