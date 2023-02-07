@@ -33,9 +33,7 @@ export default {
 
       setActive() {
         try {
-          console.log('PROFILE PROPS', props.profile);
           AppState.activeProfile = props.profile
-          console.log(AppState.activeProfile);
         } catch (error) {
           Pop.error(error)
         }
