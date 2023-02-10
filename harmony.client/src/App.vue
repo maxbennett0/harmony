@@ -7,7 +7,7 @@
   </main>
   <footer v-if="activeSong" class="container-fluid d-flex sticky-bottom bg-dark p-3">
     <img class="img-fluid img-size" :src="activeSong.coverImg" alt="" srcset="">
-    <audio id="player" class="bg-dark" @loadeddata="setSongDuration" autoplay hidden :src="activeSong.songUrl">
+    <audio id="player" class="bg-dark" @loadeddata="setSongDuration" hidden :src="activeSong.songUrl">
     </audio>
     <div class="icons">
       <i id="loopButton" class="mdi mdi-sync text-white selectable" @click="loopSong(activeSong.id)"></i>
@@ -133,7 +133,6 @@ export default {
         try {
           await songsService.findSongById(songId)
           player.loop = !player.loop
-          console.log(player.loop)
           return
         } catch (error) {
           logger.error(error)
