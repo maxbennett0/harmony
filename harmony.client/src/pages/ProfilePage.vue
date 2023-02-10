@@ -114,7 +114,6 @@ export default {
       getProfile();
       getMySongs();
       getFollowersByProfileId();
-      getFollowing();
       getMyLikes();
     });
     return {
